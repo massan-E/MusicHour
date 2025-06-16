@@ -1,7 +1,7 @@
 module ImageProcessable
-  extend ActiveSupport::Concern
-
   class ImageProcessingError < StandardError; end
+
+  module_function
 
   def process_and_transform_image(image_io, width)
     return unless image_io.present?
@@ -14,7 +14,6 @@ module ImageProcessable
         .saver(strip: true, quality: 85)
         .call
 
-      # ActionDispatch::Http::UploadedFileを返す
       ActionDispatch::Http::UploadedFile.new(
         tempfile: processed_image,
         filename: "#{File.basename(image_io.original_filename, '.*')}.webp",

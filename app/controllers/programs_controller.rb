@@ -36,7 +36,7 @@ class ProgramsController < ApplicationController
 
     if @program.valid?
       begin
-        @program.image = @program.process_and_transform_image(params[:program][:image], 854) if params[:program][:image].present?
+        @program.image = ImageProcessable.process_and_transform_image(params[:program][:image], 854) if params[:program][:image].present?
         if @program.save
           flash[:notice] = "番組を作成しました"
           redirect_to @program
@@ -57,7 +57,7 @@ class ProgramsController < ApplicationController
 
     if @program.valid?
       begin
-        @program.image = @program.process_and_transform_image(params[:program][:image], 854) if params[:program][:image].present?
+        @program.image = ImageProcessable.process_and_transform_image(params[:program][:image], 854) if params[:program][:image].present?
         if @program.save
           flash[:notice] = "番組を編集しました"
           redirect_to @program
