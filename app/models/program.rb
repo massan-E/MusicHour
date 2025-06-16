@@ -1,4 +1,5 @@
 class Program < ApplicationRecord
+  include ImageProcessable
   attr_accessor :invitation_token
 
   validates :title, presence: true,
