@@ -10,7 +10,7 @@
 
 # users
 
-if Rails.env.development? || Rails.env.test?
+if Rails.env.development?
   5001.times do |i|
     User.create!(
       name: "#{Faker::Games::Overwatch.hero}_id_#{i}",
