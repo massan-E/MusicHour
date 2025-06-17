@@ -15,7 +15,6 @@
     swiper-container {
       width: 100%;
       height: 450px; /* または適切な高さを設定 */
-
     }
 
     swiper-slide {
@@ -49,7 +48,7 @@
         </h2>
       </div>
 
-      <swiper-container class="mySwiper" effect="coverflow" centered-slides="true" slides-per-view="auto"
+      <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
                         autoplay-delay="7200" speed="2400" scrollbar-hide="true">
         <% @rankings.each do |result| %>
           <swiper-slide>
@@ -74,8 +73,8 @@
           すべて見る
         <% end %>
       </div>
-      
-      <swiper-container class="mySwiper" effect="coverflow" centered-slides="true" slides-per-view="auto"
+
+      <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
                         autoplay-delay="7200" speed="2400" scrollbar-hide="true">
         <% @programs.each do |program| %>
           <swiper-slide>
