@@ -28,7 +28,7 @@
           <div class="col-12 col-lg-4">
             <%= f.collection_select :letterbox_id_eq,
                 @program.letterboxes, :id, :title,
-                { include_blank: "お便り箱を選択" },
+                { include_blank: "お便り箱 を選択" },
                 { class: 'form-select' } %>
           </div>
         </div>
@@ -59,14 +59,14 @@
             <div class="d-flex gap-3">
               <div class="flex-grow-1">
                 <%= f.select :publish_eq, 
-                    [['すべて', ''], ['公開', true], ['非公開', false]], 
-                    {}, 
+                    [['公開', true], ['非公開', false]], 
+                    { include_blank: "公開状態 を選択" }, 
                     { class: 'form-select' } %>
               </div>
               <div class="flex-grow-1">
                 <%= f.select :is_read_eq, 
-                    [['すべて', ''], ['既読', true], ['未読', false]], 
-                    {}, 
+                    [['既読', true], ['未読', false]], 
+                    { include_blank: "既読/未読 を選択"}, 
                     { class: 'form-select' } %>
               </div>
             </div>
