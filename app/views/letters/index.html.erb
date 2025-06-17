@@ -59,13 +59,13 @@
             <div class="d-flex gap-3">
               <div class="flex-grow-1">
                 <%= f.select :publish_eq, 
-                    [['すべて', ''], ['公開', true], ['非公開', false]], 
+                    [['公開状態', ''], ['公開', true], ['非公開', false]], 
                     {}, 
                     { class: 'form-select' } %>
               </div>
               <div class="flex-grow-1">
                 <%= f.select :is_read_eq, 
-                    [['すべて', ''], ['既読', true], ['未読', false]], 
+                    [['既読/未読', ''], ['既読', true], ['未読', false]], 
                     {}, 
                     { class: 'form-select' } %>
               </div>
