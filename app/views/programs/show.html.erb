@@ -71,6 +71,18 @@
     </div>
   <% end %>
 
+  <div class="glass-morphism p-4 mb-5">
+    <% if @program.not_set? %>
+      <h2>ランキング集計が未設定です</h2>
+    <% elsif @star_rankings.blank? %>
+      <h2>ランキングがありません。</h2>
+    <% else %>
+      <% @star_rankings.each_with_index do |(user, star), i| %>
+        <%= render "shared/star_ranking", program: @program, user: user, rank: i + 1, star: star %>
+      <% end %>
+    <% end %>
+  </div>
+
   <% if (producer?(current_user, @program) || current_user&.admin?) %>
     <div class="glass-morphism p-4 mb-5">
       <h2 class="text-gradient h4 mb-0">
