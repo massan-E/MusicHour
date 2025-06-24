@@ -27,10 +27,6 @@ development:
   primary: &primary_development
     <<: *default
     database: myapp_development
-  cache:
-    <<: *primary_development
-    database: myapp_development_cache
-    migrations_paths: db/cache_migrate
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
   # When left blank, PostgreSQL will use the default role. This is
@@ -88,10 +84,6 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: myapp_production
     adapter: postgresql
     encoding: unicode
     url: <%= ENV['DATABASE_URL'] %>
-  cache:
-    <<: *primary_production
-    migrations_paths: db/cache_migrate
