@@ -6,7 +6,7 @@ rm -f /app/tmp/pids/server.pid
 
 RAILS_ENV=production bundle exec rails assets:precompile
 RAILS_ENV=production bundle exec rails assets:clean
-RAILS_ENV=production bundle exec rails db:migrate
+RAILS_ENV=production bundle exec rails db:prepare
 
 
 # コンテナーのプロセスを実行する。（Dockerfile 内の CMD に設定されているもの。）
