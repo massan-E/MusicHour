@@ -29,6 +29,11 @@
     </div>
 
     <div class="mb-4">
+      <%= form.label :ranking_period, "ランキング期間", class: "form-label" %>
+      <%= form.select :ranking_period, [["未設定", "not_set"], ["週間", "weekly"], ["月間", "monthly"]], {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-4">
       <%= form.label :image, "画像", class: "form-label" %>
       <%= form.file_field :image,
           class: "form-control",

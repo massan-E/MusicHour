@@ -88,6 +88,6 @@ class ProgramsController < ApplicationController
     end
 
     def program_params
-      params.require(:program).permit(:title, :body, :image, :publish, :url)
+      params.require(:program).permit(:title, :body, :image, :publish, :url, :ranking_period)
     end
 end
