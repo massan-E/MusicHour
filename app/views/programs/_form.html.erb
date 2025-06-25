@@ -31,6 +31,9 @@
     <div class="mb-4">
       <%= form.label :ranking_period, class: "form-label" %>
       <%= form.select :ranking_period, [["未設定", "not_set"], ["週間", "weekly"], ["月間", "monthly"]], {}, class: "form-select" %>
+      <small class="form-text text-white-50">
+        ※ 設定後、ランキングの表示や更新がされるまで1時間ほどかかります。
+      </small>
     </div>
 
     <div class="mb-4">
