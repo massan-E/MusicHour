@@ -18,6 +18,7 @@ ja:
         image: 画像
         publish: 公開設定
         url: URL
+        ranking_period: "ランキング集計期間"
       letterbox:
         title: タイトル
         body: お便り箱の説明

@@ -71,6 +71,27 @@
     </div>
   <% end %>
 
+  <div class="glass-morphism p-4 mb-5">
+    <h2 class="text-gradient h4 mb-4">
+      <i class="bi bi-star me-2"></i>
+      Starランキング
+    </h2>
+    <% if @program.not_set? %>
+      <h2>ランキング集計が未設定です</h2>
+    <% elsif @star_rankings.blank? %>
+      <h2>ランキングがありません。</h2>
+    <% else %>
+      <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
+                          autoplay-delay="7200" speed="2400" scrollbar-hide="true">
+        <% @star_rankings.each_with_index do |(user, star), i| %>
+          <swiper-slide>
+            <%= render "shared/star_ranking", program: @program, user: user, rank: i + 1, star: star %>
+          </swiper-slide>
+        <% end %>
+      </swiper-container>
+    <% end %>
+  </div>
+
   <% if (producer?(current_user, @program) || current_user&.admin?) %>
     <div class="glass-morphism p-4 mb-5">
       <h2 class="text-gradient h4 mb-0">
@@ -161,3 +182,30 @@
     番組一覧へ戻る
   <% end %>
 </div>
+
+  <style>
+    swiper-container {
+      width: 100%;
+      height: 300px;
+    }
+
+    swiper-slide {
+      border-radius: 12px;
+      background-position: center;
+      width: 50%;
+      height: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 992px) {
+      swiper-container {
+        width: ;
+        height: 500px; 
+      }
+      swiper-slide {
+        width: 100%;
+      }
+    }
+  </style>

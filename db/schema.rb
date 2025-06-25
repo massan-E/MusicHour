@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_24_141228) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_24_194746) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,6 +65,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_24_141228) do
     t.string "radio_name", default: "loving rabbit", null: false
     t.bigint "program_id"
     t.integer "star", default: 0
+    t.datetime "stared_at"
     t.index ["letterbox_id"], name: "index_letters_on_letterbox_id"
     t.index ["program_id"], name: "index_letters_on_program_id"
     t.index ["user_id"], name: "index_letters_on_user_id"
@@ -90,6 +91,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_24_141228) do
     t.datetime "send_invitation_at"
     t.boolean "publish", default: true
     t.string "url"
+    t.integer "ranking_period", default: 0, null: false, comment: "ランキング期間設定: 0=設定なし, 1=週間, 2=月間"
+    t.index ["ranking_period"], name: "index_programs_on_ranking_period"
     t.index ["user_id"], name: "index_programs_on_user_id"
   end
 

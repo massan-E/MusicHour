@@ -1,0 +1,398 @@
+<%# ランクごとの色とアイコンを設定 ここは後々hlperに切り分ける%>
+<%
+  rank_styles = {
+    1 => { 
+      class: "gold-card", 
+      icon: "bi bi-trophy-fill", 
+      badge: "First"
+    },
+    2 => { 
+      class: "silver-card", 
+      icon: "bi bi-trophy-fill", 
+      badge: "Second"
+    },
+    3 => { 
+      class: "bronze-card", 
+      icon: "bi bi-trophy-fill", 
+      badge: "Third"
+    }
+  }
+  
+  style = rank_styles[rank] || { 
+    class: "default-card", 
+    icon: "bi bi-award", 
+    badge: "TOP #{rank}"
+  }
+%>
+
+<div class="ranking-card <%= style[:class] %> position-relative overflow-hidden shadow-lg w-100 h-100">
+  <!-- メタリックリフレクション効果 -->
+  <div class="metallic-reflection"></div>
+  
+  <!-- デコレーション要素 -->
+  <div class="decoration-circle circle-1"></div>
+  <div class="decoration-circle circle-2"></div>
+  
+  <div class="p-3 p-lg-4 h-100 d-flex align-items-center">
+    <div class="row g-4 align-items-center w-100">
+      <div class="col-auto text-center">
+        <div class="rank-indicator position-relative">
+          <span class="rank-number fw-bold"><%= rank %></span>
+          <div class="trophy-badge">
+            <i class="<%= style[:icon] %> trophy-icon"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col">
+        <div class="d-flex align-items-center flex-wrap mb-3">
+          <h3 class="radio-name mb-0 me-3">
+            <%= program.letters.where(user: user).last&.radio_name || "名無しさん" %>
+          </h3>
+          <span class="rank-badge">
+            <%= style[:badge] %>
+          </span>
+        </div>
+        
+        <div class="stars-container">
+          <div class="d-flex align-items-center mb-2">
+            <div class="star-count-display me-3">
+              <i class="bi bi-star-fill me-2"></i>
+              <span class="fw-bold"><%= star %></span>
+            </div>
+            
+            <div class="stars-display">
+              <% star.times do |i| %>
+                <i class="bi bi-star-fill star-icon <%= 'star-animate' if i % 4 == 0 %>"></i>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ベースカードスタイル */
+  .ranking-card {
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  // .ranking-card:hover {
+  //   transform: scale(1.03);
+  // }
+  
+  /* メタリック効果 - 左から右に流れる版 */
+  .metallic-reflection {
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 150%;
+    height: 100%;
+    background: linear-gradient(
+      90deg, 
+      rgba(255, 255, 255, 0) 0%, 
+      rgba(255, 255, 255, 0.05) 20%, 
+      rgba(255, 255, 255, 0.2) 50%, 
+      rgba(255, 255, 255, 0.05) 80%, 
+      rgba(255, 255, 255, 0) 100%
+    );
+    z-index: 1;
+    transform: skewX(-20deg);
+    animation: shine-flow 6s infinite ease-in-out;
+    pointer-events: none;
+  }
+  
+  @keyframes shine-flow {
+    0% { left: -150%; }
+    100% { left: 150%; }
+  }
+  
+  /* デコレーション要素 */
+  .decoration-circle {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 0;
+  }
+  
+  .circle-1 {
+    width: 70%;
+    height: 70%;
+    top: -35%;
+    right: -35%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+  }
+  
+  .circle-2 {
+    width: 50%;
+    height: 50%;
+    bottom: -25%;
+    left: -25%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+  }
+  
+  /* ランク表示 */
+  .rank-indicator {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 50%;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+  }
+  
+  .rank-indicator::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    border-radius: 50% 50% 0 0;
+  }
+  
+  .rank-number {
+    background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+    font-size: 2.6rem;
+  }
+  
+  .trophy-badge {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  
+  .trophy-icon {
+    font-size: 1.6rem;
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.4));
+  }
+  
+  /* ラジオネーム */
+  .radio-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 2;
+    position: relative;
+  }
+  
+  /* ランクバッジ */
+  .rank-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+    position: relative;
+  }
+  
+  /* スター数表示 */
+  .star-count-display {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    padding: 0.4rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    position: relative;
+  }
+  
+  .star-count-display i {
+    color: #FFD700;
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    font-size: 1.5rem;
+  }
+  
+  .star-count-display span {
+    color: #fff;
+    margin-left: 0.5rem;
+  }
+  
+  /* スター表示 - アイコン版 */
+  .stars-container {
+    margin-top: 1rem;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .stars-display {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 100%;
+  }
+  
+  .star-icon {
+    color: #FFD700;
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .star-animate {
+    animation: star-pulse 2s infinite alternate;
+  }
+  
+  @keyframes star-pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.3); }
+  }
+  
+  /* ランク別スタイル - 透明度を落とした版 */
+  .gold-card {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.45) 0%, rgba(255, 215, 0, 0.35) 50%, rgba(218, 165, 32, 0.45) 100%);
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+  }
+  
+  .gold-card .rank-badge {
+    color: #FFD700;
+    border: 1px solid rgba(255, 215, 0, 0.5);
+  }
+  
+  .gold-card .trophy-icon {
+    color: #FFD700;
+  }
+  
+  .gold-card .radio-name {
+    background: linear-gradient(to right, #FFD700, #FFC107);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .silver-card {
+    background: linear-gradient(135deg, rgba(192, 192, 192, 0.45) 0%, rgba(192, 192, 192, 0.35) 50%, rgba(169, 169, 169, 0.45) 100%);
+    border: 2px solid rgba(192, 192, 192, 0.4);
+    box-shadow: 0 5px 20px rgba(192, 192, 192, 0.3);
+  }
+  
+  .silver-card .rank-badge {
+    color: #C0C0C0;
+    border: 1px solid rgba(192, 192, 192, 0.5);
+  }
+  
+  .silver-card .trophy-icon {
+    color: #C0C0C0;
+  }
+  
+  .silver-card .radio-name {
+    background: linear-gradient(to right, #C0C0C0, #A9A9A9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .bronze-card {
+    background: linear-gradient(135deg, rgba(205, 127, 50, 0.45) 0%, rgba(205, 127, 50, 0.35) 50%, rgba(184, 115, 51, 0.45) 100%);
+    border: 2px solid rgba(205, 127, 50, 0.4);
+    box-shadow: 0 5px 20px rgba(205, 127, 50, 0.3);
+  }
+  
+  .bronze-card .rank-badge {
+    color: #CD7F32;
+    border: 1px solid rgba(205, 127, 50, 0.5);
+  }
+  
+  .bronze-card .trophy-icon {
+    color: #CD7F32;
+  }
+  
+  .bronze-card .radio-name {
+    background: linear-gradient(to right, #CD7F32, #B87333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .default-card {
+    background: linear-gradient(135deg, rgba(100, 149, 237, 0.45) 0%, rgba(100, 149, 237, 0.35) 50%, rgba(65, 105, 225, 0.45) 100%);
+    border: 2px solid rgba(100, 149, 237, 0.4);
+    box-shadow: 0 5px 20px rgba(100, 149, 237, 0.3);
+  }
+  
+  .default-card .rank-badge {
+    color: #6495ED;
+    border: 1px solid rgba(100, 149, 237, 0.5);
+  }
+  
+  .default-card .trophy-icon {
+    color: #6495ED;
+  }
+  
+  .default-card .radio-name {
+    background: linear-gradient(to right, #6495ED, #4169E1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* レスポンシブ調整 */
+  @media (max-width: 768px) {
+    .rank-indicator {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .rank-number {
+      font-size: 2.2rem;
+    }
+    
+    .trophy-badge {
+      width: 30px;
+      height: 30px;
+      bottom: 5px;
+      right: 5px;
+    }
+    
+    .trophy-icon {
+      font-size: 1.3rem;
+    }
+    
+    .radio-name {
+      font-size: 1.5rem;
+    }
+    
+    .stars-display {
+      flex-wrap: wrap;
+    }
+    
+    .star-icon {
+      font-size: 1.3rem;
+      margin-right: 0.4rem;
+    }
+  }
+</style>

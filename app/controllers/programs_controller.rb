@@ -15,6 +15,8 @@ class ProgramsController < ApplicationController
     @letter.radio_name = current_user.name if current_user
     @letter.letterbox_id = params[:letter]&.dig(:letterbox_id)
     @letterboxes = @program.letterboxes.published
+    @star_rankings = @program.cached_star_rankings
+    logger.swim @star_rankings
   end
 
   def new
@@ -86,6 +88,6 @@ class ProgramsController < ApplicationController
     end
 
     def program_params
-      params.require(:program).permit(:title, :body, :image, :publish, :url)
+      params.require(:program).permit(:title, :body, :image, :publish, :url, :ranking_period)
     end
 end
