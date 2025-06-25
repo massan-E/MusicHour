@@ -108,8 +108,8 @@ class Program < ApplicationRecord
       .where(stared_at: date_range)
       .group(:user)
       .limit(limit)
-      .order(Arel.sql("COUNT(star) DESC"))
-      .count(:star)
+      .order(Arel.sql("SUM(star) DESC"))
+      .sum(:star)
   end
 
   # 現在のランキング期間の表示用文字列
