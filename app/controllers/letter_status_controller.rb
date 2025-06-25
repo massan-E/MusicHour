@@ -15,7 +15,7 @@ class LetterStatusController < ApplicationController
 
   def update_star
     authorize @letter.program, policy_class: LetterStatusPolicy
-    @letter.update(star: params[:star])
+    @letter.update(star: params[:star], stared_at: Time.current)
   end
 
   private
