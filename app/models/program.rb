@@ -64,19 +64,19 @@ class Program < ApplicationRecord
     (send_invitation_at + 3.days).strftime("%Y年%m月%d日 %H:%M")
   end
 
-# 日付範囲を計算するプライベートメソッド
+  # 日付範囲を計算するメソッド
   def calculate_date_range(base_time, period_type)
     return nil unless %w[weekly monthly].include?(period_type)
     base_date = base_time.to_date
 
     range_config = {
-      'weekly' => {
-        start: -> (date) { date.beginning_of_week + 5.hours },
-        end: -> (date) { date.end_of_week.end_of_day + 5.hours }
+      "weekly" => {
+        start: ->(date) { date.beginning_of_week + 5.hours },
+        end: ->(date) { date.end_of_week.end_of_day + 5.hours }
       },
-      'monthly' => {
-        start: -> (date) { date.beginning_of_month + 5.hours },
-        end: -> (date) { date.end_of_month.end_of_day + 5.hours }
+      "monthly" => {
+        start: ->(date) { date.beginning_of_month + 5.hours },
+        end: ->(date) { date.end_of_month.end_of_day + 5.hours }
       }
     }
 
@@ -108,7 +108,7 @@ class Program < ApplicationRecord
       .where(stared_at: date_range)
       .group(:user)
       .limit(limit)
-      .order(Arel.sql('COUNT(star) DESC'))
+      .order(Arel.sql("COUNT(star) DESC"))
       .count(:star)
   end
 
@@ -119,9 +119,9 @@ class Program < ApplicationRecord
     end_date = date_range.end
 
     case ranking_period
-    when 'weekly'
+    when "weekly"
       "#{start_date.strftime('%-m/%-d')}～#{end_date.strftime('%-m/%-d')}の週間ランキング"
-    when 'monthly'
+    when "monthly"
       "#{start_date.strftime('%-Y年%-m月')}の月間ランキング"
     end
   end

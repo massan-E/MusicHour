@@ -30,8 +30,8 @@ namespace :ranking do
     raise e
   end
 
-  desc "勢いランキングを更新する"
-  task update_star_ranking: :environment do
+  # desc "勢いランキングを更新する"
+  # task update_star_ranking: :environment do
   #   program_ids = Program.where(publish: true).ids
   #   program_ids.each do |program_id|
   #     program = Program.find(program_id)
@@ -66,5 +66,5 @@ namespace :ranking do
   #   Rails.logger.error "Star rankings update failed: #{e.message}"
   #   puts "Error: #{e.message}"
   #   raise e
-  end
+  # end
 end
