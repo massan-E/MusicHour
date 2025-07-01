@@ -1,20 +1,4 @@
 <div class="device-links">
-  <%- if controller_name != 'sessions' %>
-    <div class="mb-2">
-      <%= link_to new_session_path(resource_name), class: "top-nav-link nav-hover" do %>
-        <i class="bi bi-box-arrow-in-right me-2"></i>ログイン
-      <% end %>
-    </div>
-  <% end %>
-
-  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-    <div class="mb-2">
-      <%= link_to new_registration_path(resource_name), class: "top-nav-link nav-hover" do %>
-        <i class="bi bi-person-plus me-2"></i>新規登録
-      <% end %>
-    </div>
-  <% end %>
-
   <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
     <div class="mb-2">
       <%= link_to new_password_path(resource_name), class: "top-nav-link nav-hover" do %>
@@ -31,6 +15,35 @@
     </div>
   <% end %>
 
+  <div class="separator my-4">
+    <span>または</span>
+  </div>
+
+  <%- if controller_name != 'sessions' %>
+    <div class="mb-2">
+      <%= link_to new_session_path(resource_name), class: "btn btn-primary rounded-pill px-5 py-2 hover-lift" do %>
+        <i class="bi bi-box-arrow-in-right me-2"></i>ログイン
+      <% end %>
+    </div>
+  <% end %>
+
+  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <div class="mb-2">
+      <%= link_to new_registration_path(resource_name), class: "btn btn-primary rounded-pill px-5 py-2 hover-lift" do %>
+        <i class="bi bi-person-plus me-2"></i>新規登録
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="my-4 text-center">
+    <%= button_to omniauth_authorize_path(resource_name, :google_oauth2),
+        class: "hover-lift border-0 bg-transparent rounded-pill p-0",
+        data: { turbo: false } do %>
+      <%= image_tag "web_neutral_rd_ctn@1x.png" %>
+    <% end %>
+  </div>
+
+
   <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
     <div class="mb-2">
       <%= link_to new_unlock_path(resource_name), class: "top-nav-link nav-hover" do %>
@@ -39,16 +52,19 @@
     </div>
   <% end %>
 
-  <%- if devise_mapping.omniauthable? %>
-    <%- resource_class.omniauth_providers.each do |provider| %>
-      <div class="mb-2">
-        <%= button_to omniauth_authorize_path(resource_name, provider),
-            class: "btn btn-outline-light rounded-pill px-4 hover-lift",
-            data: { turbo: false } do %>
-          <i class="bi bi-<%= provider.to_s.downcase %> me-2"></i>
-          <%= OmniAuth::Utils.camelize(provider) %>でログイン
-        <% end %>
-      </div>
+  <% if false %>
+    <%- if devise_mapping.omniauthable? %>
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <div class="mb-2">
+          <%= button_to omniauth_authorize_path(resource_name, provider),
+              class: "btn btn-outline-light rounded-pill px-4 hover-lift",
+              data: { turbo: false } do %>
+            <i class="bi bi-<%= provider.to_s.downcase %> me-2"></i>
+            <%= OmniAuth::Utils.camelize(provider) %>でログイン
+            <% logger.swim "resource_name : #{resource_name}, provider : #{provider.class}" %>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 </div>
@@ -65,3 +81,34 @@
     }
   </style>
 <% end %>
+
+<style>
+
+    .separator {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .separator::before,
+    .separator::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .separator::before {
+      margin-right: 1em;
+    }
+    
+    .separator::after {
+      margin-left: 1em;
+    }
+    
+    .separator span {
+      padding: 0 10px;
+      font-size: 0.9rem;
+    }
+
+</style>
