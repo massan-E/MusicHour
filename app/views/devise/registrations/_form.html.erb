@@ -1,33 +1,50 @@
+<div class="p-4">
+  <div class="glass-morphism-signup">
+    <div class="card-body p-4 p-md-5">
+      <h1 class="text-gradient text-center mb-4">
+        <i class="bi bi-person-plus me-2"></i>
+        新規アカウント登録
+      </h1>
 
-<%= form_with(model: resource, as: resource_name, url: registration_path(resource_name), class: "needs-validation") do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <%= form_with(model: resource, as: resource_name, url: registration_path(resource_name), class: "needs-validation") do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="mb-4">
-    <%= f.label :name, class: "form-label text-gradient" %>
-    <%= f.text_field :name, class: "form-control text-dark", placeholder: "ユーザー名を入力（必須）", autofocus: true %>
+        <div class="mb-4">
+          <%= f.label :name, class: "form-label text-gradient" %>
+          <div class="input-group">
+            <%= f.text_field :name, class: "form-control border-start-0 text-dark", placeholder: "ユーザー名を入力（必須）", autofocus: true %>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :email, class: "form-label text-gradient" %>
+          <div class="input-group">
+            <%= f.email_field :email, class: "form-control border-start-0 text-dark", placeholder: "メールアドレスを入力（任意）" %>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password, class: "form-label text-gradient" %>
+          <div class="input-group">
+            <%= f.password_field :password, class: "form-control border-start-0 text-dark", placeholder: "パスワードを入力（#{@minimum_password_length}文字以上）" %>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password_confirmation, class: "form-label text-gradient" %>
+          <div class="input-group">
+            <%= f.password_field :password_confirmation, class: "form-control border-start-0 text-dark", placeholder: "パスワードを再入力" %>
+          </div>
+        </div>
+
+        <div class="d-grid gap-2 my-4">
+          <%= f.submit "登録する", class: "btn btn-primary btn-lg rounded-pill hover-lift" %>
+        </div>
+      <% end %>
+
+      <div class="text-center mt-4">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
   </div>
-
-  <div class="mb-4">
-    <%= f.label :email, class: "form-label text-gradient" %>
-    <%= f.email_field :email, class: "form-control text-dark", placeholder: "メールアドレスを入力（任意）" %>
-  </div>
-
-  <div class="mb-4">
-    <%= f.label :password, class: "form-label text-gradient" %>
-    <%= f.password_field :password, class: "form-control text-dark", placeholder: "パスワードを入力（#{@minimum_password_length}文字以上）" %>
-  </div>
-
-  <div class="mb-4">
-    <%= f.label :password_confirmation, class: "form-label text-gradient" %>
-    <%= f.password_field :password_confirmation, class: "form-control text-dark", placeholder: "パスワードを再入力" %>
-  </div>
-
-  <div class="text-end my-4">
-    <%= f.submit "登録する", class: "btn btn-primary rounded-pill px-4 hover-lift" %>
-    <%= link_to "キャンセル", 'javascript:history.back()', class: "btn btn-outline-light rounded-pill px-4 hover-lift ms-2" %>
-  </div>
-<% end %>
-
-<div class="text-center">
-  <%= render "devise/shared/links" %>
 </div>

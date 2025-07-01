@@ -105,7 +105,7 @@ class Program < ApplicationRecord
     return [] if not_set?
     letters
       .where.not(user: nil)
-      .where.not(publish: false)
+      .where(publish: true)
       .where(stared_at: date_range)
       .group(:user)
       .limit(limit)
