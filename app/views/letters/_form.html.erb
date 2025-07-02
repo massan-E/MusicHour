@@ -1,5 +1,5 @@
 <div class="glass-morphism p-4">
-  <%= form_with(model: letter, url: letter_action_path(letter, program), class: "needs-validation") do |form| %>
+  <%= form_with(model: letter, url: letter_action_path(letter, program), class: "needs-validation",data: { turbo_stream: true }) do |form| %>
     <% if letter.errors.any? %>
       <div class="alert alert-danger">
         <h2 class="h5 mb-3">

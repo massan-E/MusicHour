@@ -1,0 +1,35 @@
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">こちらの内容でよろしいですか？</h5>
+        <button class="close" data-bs-dismiss="modal">ｘ</button>
+      </div>
+      <div class="modal-body">
+        <% logger.swim letter_params %>
+        <span class="modal-inline-text">お便り箱： <%= Letterbox.find(letter_params[:letterbox_id]) %></span><br>
+        <span class="modal-inline-text">ラジオネーム：  <%= letter_params[:radio_name] %></span>
+        <span class="modal-inline-text">本文：  <%= markdown(letter_params[:body]) %></span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn m-0" data-bs-dismiss="modal">
+          キャンセル
+        </button>
+        <%= link_to "送信する", program_letters_path(params: letter_params), method: :post %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" id="modal-button" data-bs-toggle="modal" data-bs-target="#modal">
+  Launch demo modal
+</button>
+
+<script>
+  document.addEventListener('turbo:load', function() {
+    const modalbutton = document.getElementById('modal-button');
+    if (modalbutton) {
+      modalbutton.click(); // ボタンを自動的にクリックしてモーダルを表示
+    }
+  });
+</script>

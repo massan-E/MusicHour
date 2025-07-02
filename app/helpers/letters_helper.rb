@@ -1,6 +1,6 @@
 module LettersHelper
   def letter_action_path(letter, program)
-    letter.persisted? ? edit_letter_path(program) : program_letters_path(program)
+    letter.persisted? ? edit_letter_path(program) : program_letter_check_path(program)
   end
 
   def permitted_q_params
