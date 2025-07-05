@@ -50,7 +50,7 @@
         <div class="modal-footer border-0 p-4">
           <div class="d-flex justify-content-end gap-2 w-100">
             <% unless letter.errors.any? %>
-              <%= button_to "送信する",
+              <%= button_to "この内容で送信する",
                   program_letters_path,
                   method: :post,
                   params: { letter: letter_params },
