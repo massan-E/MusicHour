@@ -56,13 +56,11 @@ class LettersController < ApplicationController
     @letter.user_id = current_user&.id
     @letter.program_id = params[:program_id]
     if @letter.valid?
-      @letter_params = letter_params
+      render "letters/check", status: :ok, locals: { letter: @letter, letter_params: letter_params }
     else
-      flash.now[:danger] = "入力された情報が正しくありませんでした、お便り入力フォームを確認してください"
-      render "programs/show", status: :unprocessable_entity
+      render "letters/check", status: :unprocessable_entity, locals: { letter: @letter, letter_params: letter_params }
     end
   end
-
 
   private
 
