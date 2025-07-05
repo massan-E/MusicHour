@@ -1,0 +1,68 @@
+<%= turbo_frame_tag "letter_modal" do %>
+  <div class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-75" style="z-index: 1050;" data-controller="letter_modal" data-letter_modal-target="backGround" data-action="click->letter_modal#closeBackground">
+    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-lg-down modal-lg w-lg-800"  role="document" data-letter_modal-target="letterModal">
+      <div class="modal-content glass-morphism rounded-4 shadow-lg border-0 position-relative">
+        <button class="btn-close btn-close-white position-absolute top-0 end-0 p-4 z-1" data-action="click->letter_modal#closeModal" aria-label="Close"></button>
+        <div class="modal-header border-0 px-4 pt-4">
+          <% if letter.errors.any? %>
+            <h5 class="modal-title text-danger fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i>入力内容にエラーがあります</h5>
+          <% else %>
+            <h5 class="modal-title text-gradient fw-bold">以下の内容で送信しますか？</h5>
+          <% end %>
+        </div>
+
+        <div class="modal-body p-4">
+          <% if letter.errors.any? %>
+            <div class="alert alert-danger d-flex align-items-center mb-4">
+              <ul class="mb-0 ps-3">
+                <% letter.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="mb-3">
+            <p class="fw-bold text-gradient-subtle mb-1">お便り箱</p>
+            <% if letter.errors.include?(:letterbox) %>
+              <p class="text-danger small mb-0 ps-3"><i class="bi bi-exclamation-circle-fill me-1"></i>エラーがあります</p>
+            <% end %>
+            <p class="mb-0 ps-3 p-2 rounded-3" style="background: rgba(0,0,0,0.2); overflow-y: auto;"><%= letter&.letterbox&.title %></p>
+          </div>
+          <div class="mb-3">
+            <p class="fw-bold text-gradient-subtle mb-1">ラジオネーム</p>
+            <% if letter.errors.include?(:radio_name) %>
+              <p class="text-danger small mb-0 ps-3"><i class="bi bi-exclamation-circle-fill me-1"></i>エラーがあります</p>
+            <% end %>
+            <p class="mb-0 ps-3 p-2 rounded-3" style="background: rgba(0,0,0,0.2); overflow-y: auto;"><%= letter.radio_name %></p>
+          </div>
+          <div>
+            <p class="fw-bold text-gradient-subtle mb-1">本文</p>
+            <% if letter.errors.include?(:body) %>
+              <p class="text-danger small mb-0 ps-3 mt-1"><i class="bi bi-exclamation-circle-fill me-1"></i>エラーがあります</p>
+            <% end %>
+            <div class="p-3 rounded-3" style="background: rgba(0,0,0,0.2); max-height: 35vh; overflow-y: auto;">
+              <%= markdown(letter.body) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0 p-4">
+          <div class="d-flex justify-content-end gap-2 w-100">
+            <% unless letter.errors.any? %>
+              <%= button_to "この内容で送信する",
+                  program_letters_path,
+                  method: :post,
+                  params: { letter: letter_params },
+                  class: "btn btn-primary rounded-pill fw-bold hover-lift px-4",
+                  data: { turbo: false } %>
+            <% end %>
+            <button type="button" class="btn btn-outline-light fw-bold rounded-pill hover-lift px-4" data-action="click->letter_modal#closeModal">
+              キャンセル
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

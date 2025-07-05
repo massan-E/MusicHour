@@ -1,5 +1,5 @@
 <div class="glass-morphism p-4">
-  <%= form_with(model: letter, url: letter_action_path(letter, program), class: "needs-validation") do |form| %>
+  <%= form_with(model: letter, url: letter_action_path(letter, program), class: "needs-validation",data: { turbo_frame: 'letter_modal' }) do |form| %>
     <% if letter.errors.any? %>
       <div class="alert alert-danger">
         <h2 class="h5 mb-3">
@@ -27,11 +27,11 @@
 
     <div class="mb-4">
       <%= form.label :body, class: "form-label" %>
-      <%= form.text_area :body, class: "form-control", rows: 20, placeholder: "文字数制限は999文字まで、Markdown記法も使用できます！ GyazoのMarkdown貼り付けも可能です！"%>
+      <%= form.text_area :body, class: "form-control", rows: 15, placeholder: "文字数制限は999文字まで、Markdown記法も使用できます！ GyazoのMarkdown貼り付けも可能です！"%>
     </div>
 
     <div class="text-end mt-4">
-      <%= form.submit "送信する", class: "btn btn-primary rounded-pill px-4 hover-lift" %>
+      <%= form.submit "内容を確認する", class: "btn btn-primary rounded-pill px-4 hover-lift" %>
     </div>
   <% end %>
 </div>

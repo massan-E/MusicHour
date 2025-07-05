@@ -1,6 +1,6 @@
 class LettersController < ApplicationController
   before_action :set_letter, only: %i[ show destroy ]
-  before_action :set_program, only: %i[ index new create ]
+  before_action :set_program, only: %i[ index new create check ]
   before_action :authenticate_user!, only: %i[ index destroy ]
   before_action :email_registered_user, only: %i[ index ]
 
@@ -22,13 +22,13 @@ class LettersController < ApplicationController
     end
   end
 
-  def new
-    @program = Program.find(@letter.program_id)
-    authorize @program, policy_class: LetterPolicy
-    @letter = Letter.new
-    @letter.radio_name = current_user&.name
-    @letter.letterbox_id = params[:letter]&.dig(:letterbox_id)
-  end
+  # def new
+  #   @program = Program.find(@letter.program_id)
+  #   authorize @program, policy_class: LetterPolicy
+  #   @letter = Letter.new
+  #   @letter.radio_name = current_user&.name
+  #   @letter.letterbox_id = params[:letter]&.dig(:letterbox_id)
+  # end
 
   def create
     authorize @program, policy_class: LetterPolicy
@@ -49,6 +49,17 @@ class LettersController < ApplicationController
     @letter.destroy!
     flash[:notice]= "お便りを削除しました"
     redirect_to letters_path, status: :see_other
+  end
+
+  def check
+    @letter = Letter.new(letter_params)
+    @letter.user_id = current_user&.id
+    @letter.program_id = params[:program_id]
+    if @letter.valid?
+      render "letters/letter_modal", status: :ok, locals: { letter: @letter, letter_params: letter_params }
+    else
+      render "letters/letter_modal", status: :unprocessable_entity, locals: { letter: @letter, letter_params: letter_params }
+    end
   end
 
   private
