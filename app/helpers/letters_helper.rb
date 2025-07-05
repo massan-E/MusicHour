@@ -16,10 +16,10 @@ module LettersHelper
   def letter_body_size(letter)
     if letter.body.size > 999
       text = "※ #{letter.body.size} / 999 文字"
-      css_class = 'text-danger fw-bold'
+      css_class = "text-danger fw-bold"
     else
       text = "※ #{letter.body.size} / 999 文字"
-      css_class = 'text-white-50'
+      css_class = "text-white-50"
     end
     content_tag(:span, text, class: "form-text #{css_class}")
   end
