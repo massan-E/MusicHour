@@ -56,9 +56,9 @@ class LettersController < ApplicationController
     @letter.user_id = current_user&.id
     @letter.program_id = params[:program_id]
     if @letter.valid?
-      render "letters/check", status: :ok, locals: { letter: @letter, letter_params: letter_params }
+      render "letters/letter_modal", status: :ok, locals: { letter: @letter, letter_params: letter_params }
     else
-      render "letters/check", status: :unprocessable_entity, locals: { letter: @letter, letter_params: letter_params }
+      render "letters/letter_modal", status: :unprocessable_entity, locals: { letter: @letter, letter_params: letter_params }
     end
   end
 
