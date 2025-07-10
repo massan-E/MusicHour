@@ -1,105 +1,283 @@
 <div class="container pb-5 pt-4">
   <%= render 'shared/flash_message' %>
-  <div class="text-center mb-5 mt-2">
-    <h1 class="display-2 fw-bold text-gradient my-3">Music Hour</h1>
-    <p class="lead text-gradient-subtle mb-4">はがき職人募集中。</p>
-    
-    <%= link_to new_program_path, 
-        class: "btn btn-primary btn-lg rounded-pill px-5 py-3 hover-lift" do %>
-      <i class="bi bi-music-note-list me-2"></i>
-      番組を作成する
-    <% end %>
+
+<!-- タイトル＋概要セクション：モダンなレイアウト -->
+<div class="row align-items-center justify-content-center py-5 position-relative hero-section">
+  <!-- 装飾要素 -->
+  <div class="hero-decoration"></div>
+  <div class="hero-glow"></div>
+  
+  <!-- 左カラム：ロゴとボタン -->
+  <div class="col-md-6 text-center text-md-start mb-4 mb-md-0 position-relative z-index-1">
+    <div class="hero-content">
+      <h1 class="display-2 fw-bold text-gradient mb-3 hero-title">Music Hour</h1>
+      <p class="lead hero-subtitle mb-4">深夜の音楽と言葉が紡ぐ<br>特別な時間</p>
+      <%= link_to new_program_path, 
+          class: "btn btn-primary btn-lg rounded-pill px-5 py-3 hover-lift hero-btn" do %>
+        <i class="bi bi-music-note-list me-2"></i>
+        番組を作成する
+      <% end %>
+    </div>
   </div>
 
-  <style>
-    swiper-container {
-      width: 100%;
-      height: 450px; /* または適切な高さを設定 */
-    }
+  <!-- 右カラム：サービス説明とリンク -->
+  <div class="col-md-6 d-flex flex-column justify-content-center position-relative z-index-1">
+    <div class="glass-morphism p-4 p-md-5 hero-card">
+      <h2 class="h4 fw-bold text-gradient-subtle mb-3">深夜ラジオの世界へようこそ</h2>
+      <p class="text-light mb-4">
+        Music Hour は、深夜ラジオをイメージしたサイトです。<br>
+        配信者と視聴者が「お便り」で繋がる<br>
+        新感覚のプラットフォームを体験してみてください
+      </p>
+      <%= link_to "#how-to", class: "text-decoration-none fw-bold text-gradient-subtle d-inline-flex align-items-center" do %>
+        <span>使い方を確認する</span>
+        <i class="bi bi-arrow-right ms-2"></i>
+      <% end %>
+    </div>
+  </div>
+</div>
 
-    swiper-slide {
-      border-radius: 12px;
-      background-position: center;
-      background-size: cover;
-      width: 60%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
 
-    @media (max-width: 992px) {
-      swiper-container {
-        width: ;
-        height: 500px; /* または適切な高さを設定 */
-      }
-      swiper-slide {
-        width: 100%;
-      }
-    }
-  </style>
-
-  <% if @rankings.present? %>
-    <section class="glass-morphism p-5 mb-5">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="display-6 fw-bold text-gradient mb-0">
-          <i class="bi bi-broadcast-pin me-3"></i>
-          勢いランキング
-        </h2>
-      </div>
-
-      <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
-                        autoplay-delay="7200" speed="2400" scrollbar-hide="true">
-        <% @rankings.each do |result| %>
-          <swiper-slide>
-            <%= render "programs/program", program: result.program %>
-          </swiper-slide>
-        <% end %>
-      </swiper-container>
-    </section>
-  <% end %>
-
-  <% if @programs.present? %>
-    <section class="glass-morphism p-5 mb-5">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="display-6 fw-bold text-gradient mb-0">
-          <i class="bi bi-broadcast-pin me-3"></i>
-          最近追加された番組
+  <!-- 2カラム構成：お便り + 番組・お便り箱 -->
+  <div class="row gx-5 gy-4 mb-5">
+    <!-- 左カラム：お便り箱一覧 -->
+    <div class="col-lg-6">
+      <section class="glass-morphism p-4 h-30">
+        <h2 class="h4 fw-bold text-gradient mb-4">
+          <i class="bi bi-envelope-paper-fill me-2"></i> お便り箱一覧
         </h2>
 
-        <%= link_to programs_path, 
-            class: "btn btn-outline-light rounded-pill px-4 hover-lift" do %>
-          <i class="bi bi-arrow-right me-2"></i>
-          すべて見る
+        <% if @letterboxes.present? %>
+          <div class="accordion-custom overflow-auto" style="max-height: 800px;" >
+            <% @letterboxes.each_with_index do |letterbox, index| %>
+              <div class="accordion-box">
+                <input type="radio" id="toggle<%= index %>" name="letterbox-accordion" class="toggle">
+                <label class="title scroll w-100" for="toggle<%= index %>">
+                  <h4 class="card-title h5 mb-lg-4 mb-1 scroll">
+                    <span class="text-gradient fw-bold"><%= letterbox.title %></span>
+                  </h4>
+                </label>
+                <div class="content">
+                  <p><%= truncate(letterbox.body, length: 100) %></p>
+                  <div class="text-end m-3">
+                    <%= link_to '見に行ってみる', program_path(letterbox.program), class: "btn btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center hover-lift" %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-muted">お便り箱はまだありません。</p>
         <% end %>
-      </div>
+      </section>
+    </div>
 
-      <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
-                        autoplay-delay="7200" speed="2400" scrollbar-hide="true">
-        <% @programs.each do |program| %>
-          <swiper-slide>
-            <%= render program %>
-          </swiper-slide>
-        <% end %>
-      </swiper-container>
-    </section>
-  <% end %>
+    <!-- 右カラム：最近追加された番組 + お便り箱 -->
+    <div class="col-lg-6 d-flex flex-column gap-4">
+      <!-- 最近追加された番組 -->
+      <% if @programs.present? %>
+        <section class="glass-morphism p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h5 fw-bold text-gradient mb-0">
+              <i class="bi bi-broadcast-pin me-2"></i> 最近追加された番組
+            </h2>
+            <%= link_to programs_path, class: "btn btn-outline-light btn-sm rounded-pill" do %>
+              <i class="bi bi-arrow-right me-1"></i> すべて見る
+            <% end %>
+          </div>
 
-  <% if @letterboxes %>
+          <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
+                            autoplay-delay="7200" speed="2400" scrollbar-hide="true">
+            <% @programs.each do |program| %>
+              <swiper-slide>
+                <% if program.image.attached?  %>
+                  <%= link_to program, class: "d-flex flex-column hover-lift", data: { turbo: false } do %>
+                    <%= image_tag program.image,
+                      class: "w-100 h-100",
+                      style: "object-fit: contain; max-height: 100%;" %>
+                  <% end %>
+                <% else %>
+                  <%= render program %>
+                <% end %>
+              </swiper-slide>
+            <% end %>
+          </swiper-container>
+        </section>
+      <% end %>
+
+      <!-- 最近追加されたお便り箱 -->
+      <% if @letterboxes.present? %>
+        <section class="glass-morphism p-4">
+          <h2 class="h5 fw-bold text-gradient mb-3">
+            <i class="bi bi-mailbox me-2"></i> 最近追加されたお便り箱
+          </h2>
+
+          <div class="row g-3">
+            <%= render partial: "letterboxes/letterbox",
+                  collection: @letterboxes.last(10),
+                  as: :letterbox,
+                  locals: { current_user: current_user } %>
+          </div>
+        </section>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- 全幅：ユーザーの訪問履歴 -->
+  <% if @visited_programs.present? %>
     <section class="glass-morphism p-5">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="display-6 fw-bold text-gradient mb-0">
-          <i class="bi bi-mailbox me-3"></i>
-          最近追加されたお便り箱
-        </h2>
-      </div>
+      <h2 class="h5 fw-bold text-gradient mb-4">
+        <i class="bi bi-clock-history me-2"></i> ユーザーの訪問履歴
+      </h2>
 
-      <div class="row g-4">
-        <%= render partial: "letterboxes/letterbox", 
-              collection: @letterboxes, 
-              as: :letterbox,
-              locals: { current_user: current_user } %>
+      <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4">
+        <% @visited_programs.each do |program| %>
+          <div class="col">
+            <div class="glass-card h-100">
+              <h5 class="fw-bold"><%= program.title %></h5>
+              <p class="mb-1">この番組へのお便り: ○○件</p>
+              <p class="text-muted small"><%= truncate(program.description, length: 60) %></p>
+              <%= link_to "番組を見る", program_path(program), class: "btn btn-outline-light btn-sm rounded-pill mt-2" %>
+            </div>
+          </div>
+        <% end %>
       </div>
     </section>
   <% end %>
 </div>
+
+<style>
+  /* モダンなカラーテーマへの更新 */
+
+  /* カードやセクションの背景: application.bootstrap.scssの定義に近づける */
+  .glass-morphism {
+    background-color: rgba(49, 50, 62, 0.75);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.9);
+  }
+
+  /* セクション内部のコンテンツ背景（カード等）: 少し青みを加える */
+  .glass-card {
+    background-color: #2a2c3c; /* #31323E から変更 */
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    height: 100%;
+    border: 1px solid rgba(192, 202, 245, 0.1); /* 境界線を追加 */
+  }
+
+  /* スワイパーサイズ調整: glass-morphismを適用して透明感を出す */
+  swiper-container {
+    background: rgba(17, 18, 26, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 80%;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* カスタムアコーディオンスタイル */
+  .accordion-custom {
+    width: 100%;
+  }
+
+  .toggle {
+    display: none;
+  }
+
+  .title,
+  .content {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: all 0.3s;
+  }
+
+  .title {
+    background-color: #1e202c;
+    border: none;
+    padding: 1em;
+    display: block;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .title::after,
+  .title::before {
+    content: "";
+    position: absolute;
+    right: 1.25em;
+    top: 1.4em;
+    width: 2px;
+    height: 0.75em;
+    transition: all 0.3s;
+  }
+
+  .title::after {
+    transform: rotate(90deg);
+  }
+
+  .content {
+    max-height: 0;
+    overflow: hidden;
+    background-color:rgba(17, 18, 22, 0.62);
+  }
+
+  .content p {
+    margin: 0;
+    padding: 0.5em 1em 0.5em;
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .toggle:checked + .title {
+    background-color:rgb(17, 18, 22);
+  }
+
+  .toggle:checked + .title + .content {
+    max-height: 500px;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .toggle:checked + .title::before {
+    transform: rotate(90deg) !important;
+    opacity: 0;
+  }
+
+  /* アコーディオンを開いた時のアニメーション強化 */
+  .toggle:checked + .title {
+    background: linear-gradient(90deg, #31323E, #3a3b4a);
+  }
+
+  .toggle:checked + .title::after {
+    background-color: rgba(143, 148, 251, 0.8);
+  }
+
+
+  /* メディアクエリ */
+  @media (max-width: 992px) {
+    swiper-container {
+      height: 500px;
+    }
+
+    swiper-slide {
+      width: 100%;
+    }
+
+    .accordion-custom {
+      max-width: 100%;
+    }
+  }
+</style>

@@ -1,212 +1,193 @@
-<script async src="//cdn.iframe.ly/embed.js?key=<%= Rails.application.credentials.dig(:iframely, :api_key) %>&card=small"></script>
-<% content_for :title, "#{@program.title}" %>
-
 <div class="container py-5">
   <%= render 'shared/flash_message' %>
-  <div class="glass-morphism p-5 mb-5">
-    <div class="d-flex justify-content-between align-items-start mb-4">
-      <div class="w-100">
-        <h1 class="text-gradient display-5 fw-bold mb-4">
-          <i class="bi bi-broadcast-pin me-3"></i>
-          <%= @program.title %>
-        </h1>
-        <% unless @program.publish? %>
-          <div class="unpublished-program-badge mb-4">
-            <i class="bi bi-eye-slash me-2"></i>
-            非公開の番組です
-          </div>
-        <% end %>
 
+  <!-- 番組概要セクション -->
+  <div class="glass-morphism p-5 mb-5 position-relative">
+    <% if (producer?(current_user, @program) || current_user&.admin?) %>
+      <div class="position-absolute top-0 end-0 p-3 p-lg-4" style="z-index: 2;">
+        <div class="dropdown">
+          <button class="btn btn-primary rounded-pill hover-lift" type="button" id="programMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-gear-fill"></i>
+            <span class="d-none d-lg-inline ms-2">番組管理者用メニュー</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end glass-morphism rounded-3 shadow-lg fade" aria-labelledby="programMenuButton">
+          <li>
+            <%= link_to edit_program_path(@program), class: "dropdown-item text-white" do %>
+              <i class="bi bi-pencil-square me-2"></i>番組管理
+            <% end %>
+          </li>
+          <li>
+            <%= link_to program_letters_path(@program), class: "dropdown-item text-white" do %>
+              <i class="bi bi-envelope-paper me-2"></i>お便り管理
+            <% end %>
+          </li>
+          <li>
+            <%= link_to program_letterboxes_path(@program), class: "dropdown-item text-white" do %>
+              <i class="bi bi-mailbox me-2"></i>お便り箱管理
+            <% end %>
+          </li>
+        </ul>
+        </div>
+      </div>
+    <% end %>
+    <div class="row g-4">
+      <!-- 左カラム：タイトル・画像・リンク -->
+      <h1 class="text-gradient display-6 fw-bold">
+        <i class="bi bi-broadcast-pin me-2"></i>
+        <%= @program.title %>
+      </h1>
+      <div class="col-md-6">
         <h4 class="text-gradient mb-4"><%= "総お便り数：#{@program.letters.count} 件"%></h4>
 
-        <% if @program.image.attached? %>
-          <div class="text-center mb-4">
-            <%= image_tag @program.image, class: "img-fluid" %>
+        <% unless @program.publish? %>
+          <div class="alert alert-warning py-2">
+            <i class="bi bi-eye-slash me-1"></i> 非公開の番組です
           </div>
+        <% end %>
+
+        <% if @program.image.attached? %>
+          <div class="my-3 me-lg-3">
+            <%= image_tag @program.image, class: "img-fluid rounded" %>
+          </div>
+        <% end %>
+
+        <% if @program.url.present? %>
+          <div class="mb-3">
+            <h6 class="text-gradient fw-bold">LINK</h6>
+            <div class="iframely-embed">
+              <div class="iframely-responsive">
+                <a data-iframely-url href="<%= @program.url %>"></a>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- 右カラム：番組説明・投稿者 -->
+      <div class="col-md-6 d-flex flex-column justify-content-center rounded" style="background-color:rgb(21, 22, 26);">
+        <div class="p-4">
+          <p class="nav-link nav-hover fs-5" >
+            <%= link_to @program.user do %>
+              <i class="bi bi-person-circle me-2"></i>
+              <span><%= @program.user.name %></span>
+            <% end %>
+          </p>
+          <p class="lead mb-4"><%= markdown(@program.body) %></p>
+
+
+          <%= link_to "#letterForm", class: "btn btn-primary rounded-pill float-end px-4 py-2 mt-3 ms-3 hover-lift" do %>
+            <i class="bi bi-pencil-square me-2"></i>
+            <span>お便りを書く</span>
+            <i class="bi bi-arrow-right ms-2 transition-icon"></i>
+          <% end %>
+          <%= link_to "https://twitter.com/share?url=#{program_url(@program)}&text=【Music Hour】%0a%0a「#{@program.title}」お便り募集中！！%0a#{@program.body}",
+              target: '_blank',
+              class: "share-link float-end px-4 py-2 mt-3 hover-lift",
+              data: { toggle: "tooltip", placement: "bottom", turbo_prefetch: false, turbo: false },
+              title: "Xでシェア" do %>
+            <i class="bi bi-twitter-x"></i>
+            <span>共有する</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- お便り一覧 + Starランキング -->
+  <div class="row g-4 mb-5">
+    <!-- お便り箱一覧 -->
+    <div class="col-lg-6">
+      <div class="glass-morphism p-4 h-100 d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="text-gradient h5 fw-bold mb-0">
+            <i class="bi bi-mailbox me-2"></i> お便り箱一覧
+          </h2>
+          <% if producer?(current_user, @program) || current_user&.admin? %>
+            <%= link_to new_program_letterbox_path(@program), class: "btn btn-outline-light btn-sm rounded-pill" do %>
+              <i class="bi bi-plus me-1"></i> 作成
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="overflow-auto" style="max-height: 320px">
+          <%= render partial: "letterboxes/letterbox", collection: @letterboxes, as: :letterbox, locals: { current_user: current_user } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Star ランキング -->
+    <div class="col-lg-6">
+      <div class="glass-morphism p-4 h-100">
+        <h2 class="text-gradient h5 fw-bold mb-3">
+          <i class="bi bi-star me-2"></i> Starランキング
+        </h2>
+
+        <% if @program.not_set? %>
+          <p class="text-warning">ランキング集計が未設定です</p>
+        <% elsif @star_rankings.blank? %>
+          <p class="text-muted">ランキングがありません。</p>
         <% else %>
-          <p>No image available</p>
-        <% end %>
-
-        <p class="lead card-text mb-0">
-          <%= simple_format(@program.body) %>
-        </p>
-      </div>
-    </div>
-
-
-    <div class="row align-item-end d-flex">
-      <div class="col align-self-end text-white-50">
-        <%= link_to @program.user, 
-          class: "text-decoration-none d-inline-flex",
-          data: { turbo: false }  do %>
-          <i class="bi bi-person-circle me-2"></i>
-          <span class="top-nav-link nav-hover"><%= @program.user.name %></span>
-        <% end %>
-      </div>
-
-      <div class="col align-self-end gap-3">
-        <%= link_to "https://twitter.com/share?url=#{program_url(@program)}&text=【Music Hour】%0a%0a「#{@program.title}」お便り募集中！！%0a#{@program.body}",
-            target: '_blank',
-            class: "share-link float-end me-2",
-            data: { toggle: "tooltip", placement: "bottom", turbo_prefetch: false, turbo: false },
-            title: "Xでシェア" do %>
-          <i class="bi bi-twitter-x"></i>
-          <span>共有する</span>
+          <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
+                            autoplay-delay="7200" speed="2400" scrollbar-hide="true">
+            <% @star_rankings.each_with_index do |(user, star), i| %>
+              <swiper-slide>
+                <%= render "shared/star_ranking", program: @program, user: user, rank: i + 1, star: star %>
+              </swiper-slide>
+            <% end %>
+          </swiper-container>
         <% end %>
       </div>
     </div>
   </div>
 
-  <% if @program.url.present? %>
-    <div class="glass-morphism p-4 mb-5">
-      <h2 class="text-gradient h4 mb-4">
-        <i class="bi bi-link-45deg"></i>
-        リンク
-      </h2>
-      <div class="iframely-embed">
-        <div class="iframely-responsive">
-          <a data-iframely-url href="<%= @program.url %>"></a>
-        </div>
-      </div>
-    </div>
-  <% end %>
-
-  <div class="glass-morphism p-4 mb-5">
-    <h2 class="text-gradient h4 mb-4">
-      <i class="bi bi-star me-2"></i>
-      Starランキング
-    </h2>
-    <% if @program.not_set? %>
-      <h2>ランキング集計が未設定です</h2>
-    <% elsif @star_rankings.blank? %>
-      <h2>ランキングがありません。</h2>
-    <% else %>
-      <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
-                          autoplay-delay="7200" speed="2400" scrollbar-hide="true">
-        <% @star_rankings.each_with_index do |(user, star), i| %>
-          <swiper-slide>
-            <%= render "shared/star_ranking", program: @program, user: user, rank: i + 1, star: star %>
-          </swiper-slide>
-        <% end %>
-      </swiper-container>
-    <% end %>
-  </div>
-
-  <% if (producer?(current_user, @program) || current_user&.admin?) %>
-    <div class="glass-morphism p-4 mb-5">
-      <h2 class="text-gradient h4 mb-0">
-        <i class="bi bi-card-list"></i>
-        番組の制作・運営
-      </h2>
-      <div class="glass-morphism p-4 mt-4 mb-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <h2 class="text-gradient h4 mb-0">
-            <i class="bi bi-pencil"></i>
-            番組情報の編集とユーザーの管理
-          </h2>
-
-          <%= link_to edit_program_path(@program), 
-              class: "btn btn-primary rounded-pill px-4 hover-lift" do %>
-            <i class="bi bi-pencil"></i>
-            番組管理ページへ
-          <% end %>
-        </div>
-      </div>
-
-      <div class="glass-morphism p-4 mb-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <h2 class="text-gradient h4 mb-0">
-            <i class="bi bi-envelope me-2"></i>
-            お便りの管理
-          </h2>
-          
-          <%= link_to program_letters_path(@program), 
-              class: "btn btn-primary rounded-pill px-4 hover-lift" do %>
-            <i class="bi bi-list-ul me-2"></i>
-            お便り一覧を見る
-          <% end %>
-        </div>
-      </div>
-
-      <div class="glass-morphism p-4 mb-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <h2 class="text-gradient h4 mb-0">
-            <i class="bi bi-mailbox me-2"></i>
-            お便り箱の管理
-          </h2>
-          
-          <%= link_to program_letterboxes_path(@program), 
-              class: "btn btn-primary rounded-pill px-4 hover-lift" do %>
-            <i class="bi bi-mailbox me-2"></i>
-            お便り箱一覧を見る
-          <% end %>
-        </div>
-      </div>
-    </div>
-  <% end %>
-
-  <div class="glass-morphism p-4 mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="text-gradient h4 mb-0">
-        <i class="bi bi-mailbox me-2"></i>
-        お便り箱一覧
-      </h2>
-
-      <% if (producer?(current_user, @program) || current_user&.admin?) %>
-        <%= link_to new_program_letterbox_path(@program), 
-            class: "btn btn-primary rounded-pill px-4 hover-lift" do %>
-          <i class="bi bi-plus-lg me-2"></i>
-          新規作成
-        <% end %>
-      <% end %>
-    </div>
-
-    <div class="row g-4">
-      <%= render partial: "letterboxes/letterbox", 
-            collection: @letterboxes, 
-            as: :letterbox,
-            locals: { current_user: current_user } %>
-    </div>
-  </div>
-
+  <!-- お便り投稿フォーム -->
   <div class="glass-morphism p-4 mb-5" id="letterForm">
-    <h2 class="text-gradient h4 mb-4">
+    <h2 class="text-gradient h5 fw-bold mb-4">
       <i class="bi bi-envelope me-2"></i>
       お便りはこちらから
     </h2>
     <%= render "letters/form", letter: @letter, program: @program %>
   </div>
 
-  <%= link_to programs_path, class: "btn btn-outline-light rounded-pill px-4 hover-lift" do %>
-    <i class="bi bi-arrow-left me-2"></i>
-    番組一覧へ戻る
+  <%= link_to programs_path, class: "btn btn-outline-light rounded-pill px-4" do %>
+    <i class="bi bi-arrow-left me-2"></i> 番組一覧へ戻る
   <% end %>
 </div>
 
+<style>
+  swiper-container {
+    width: 100%;
+    height: 280px;
+  }
 
-  <style>
+  swiper-slide {
+    border-radius: 12px;
+    background-position: center;
+    width: 80%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 992px) {
     swiper-container {
-      width: 100%;
-      height: 300px;
+      height: 400px;
     }
-
     swiper-slide {
-      border-radius: 12px;
-      background-position: center;
-      width: 50%;
-      height: 90%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 100%;
     }
+  }
 
-    @media (max-width: 992px) {
-      swiper-container {
-        width: ;
-        height: 500px; 
-      }
-      swiper-slide {
-        width: 100%;
-      }
-    }
-  </style>
+  /* 管理者用ドロップダウンメニューのスタイル調整 */
+  .dropdown-menu.glass-morphism {
+    min-width: 18rem; /* 幅を広くする */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .dropdown-menu.glass-morphism .dropdown-item:hover,
+  .dropdown-menu.glass-morphism .dropdown-item:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+</style>
