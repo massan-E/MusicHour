@@ -11,22 +11,22 @@
             <span class="d-none d-lg-inline ms-2">番組管理者用メニュー</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end glass-morphism rounded-3 shadow-lg fade" aria-labelledby="programMenuButton">
-          <li>
-            <%= link_to edit_program_path(@program), class: "dropdown-item text-white" do %>
-              <i class="bi bi-pencil-square me-2"></i>番組管理
-            <% end %>
-          </li>
-          <li>
-            <%= link_to program_letters_path(@program), class: "dropdown-item text-white" do %>
-              <i class="bi bi-envelope-paper me-2"></i>お便り管理
-            <% end %>
-          </li>
-          <li>
-            <%= link_to program_letterboxes_path(@program), class: "dropdown-item text-white" do %>
-              <i class="bi bi-mailbox me-2"></i>お便り箱管理
-            <% end %>
-          </li>
-        </ul>
+            <li>
+              <%= link_to edit_program_path(@program), class: "dropdown-item text-white" do %>
+                <i class="bi bi-pencil-square me-2"></i>番組管理
+              <% end %>
+            </li>
+            <li>
+              <%= link_to program_letters_path(@program), class: "dropdown-item text-white" do %>
+                <i class="bi bi-envelope-paper me-2"></i>お便り管理
+              <% end %>
+            </li>
+            <li>
+              <%= link_to program_letterboxes_path(@program), class: "dropdown-item text-white" do %>
+                <i class="bi bi-mailbox me-2"></i>お便り箱管理
+              <% end %>
+            </li>
+          </ul>
         </div>
       </div>
     <% end %>

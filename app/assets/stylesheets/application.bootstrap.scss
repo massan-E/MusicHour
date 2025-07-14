@@ -25,8 +25,8 @@ body::before {
   z-index: -1;
 
   /* 背景画像の上に、半透明の#31323eを重ねる */
-  background: linear-gradient(rgba(23, 24, 31, 0.6), rgba(35, 36, 44, 0.6)), url('topispectram.webp');
-  
+  background: linear-gradient(rgba(23, 24, 31, 0.6), rgba(47, 47, 56, 0.6)), url('topispectram.webp');
+
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -127,12 +127,21 @@ header {
 
 // グラスモーフィズム
 .glass-morphism {
-  background: rgba(26, 27, 38, 0.7);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(192, 202, 245, 0.1),
-    inset 0 0 0 1px rgba(192, 202, 245, 0.1);
+  background-color: rgba(49, 50, 62, 0.75);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border-radius: 10px;
+  box-shadow: 10px 15px 8px #070707ff;
   margin-bottom: 2rem;
+}
+
+/* セクション内部のコンテンツ背景（カード等） */
+.glass-card {
+  background-color: #2a2c3c;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  height: 100%;
+  border: 1px solid rgba(192, 202, 245, 0.1);
 }
 
 .glass-morphism-signup {

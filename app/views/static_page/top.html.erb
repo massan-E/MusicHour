@@ -2,40 +2,37 @@
   <%= render 'shared/flash_message' %>
 
 <!-- タイトル＋概要セクション：モダンなレイアウト -->
-<div class="row align-items-center justify-content-center py-5 position-relative hero-section">
-  <!-- 装飾要素 -->
-  <div class="hero-decoration"></div>
-  <div class="hero-glow"></div>
-  
-  <!-- 左カラム：ロゴとボタン -->
-  <div class="col-md-6 text-center text-md-start mb-4 mb-md-0 position-relative z-index-1">
-    <div class="hero-content">
-      <h1 class="display-2 fw-bold text-gradient mb-3 hero-title">Music Hour</h1>
-      <p class="lead hero-subtitle mb-4">深夜の音楽と言葉が紡ぐ<br>特別な時間</p>
-      <%= link_to new_program_path, 
-          class: "btn btn-primary btn-lg rounded-pill px-5 py-3 hover-lift hero-btn" do %>
-        <i class="bi bi-music-note-list me-2"></i>
-        番組を作成する
-      <% end %>
-    </div>
-  </div>
+  <div class="row py-5 gx-5 gy-4">
 
-  <!-- 右カラム：サービス説明とリンク -->
-  <div class="col-md-6 d-flex flex-column justify-content-center position-relative z-index-1">
-    <div class="glass-morphism p-4 p-md-5 hero-card">
-      <h2 class="h4 fw-bold text-gradient-subtle mb-3">深夜ラジオの世界へようこそ</h2>
-      <p class="text-light mb-4">
-        Music Hour は、深夜ラジオをイメージしたサイトです。<br>
-        配信者と視聴者が「お便り」で繋がる<br>
-        新感覚のプラットフォームを体験してみてください
-      </p>
-      <%= link_to "#how-to", class: "text-decoration-none fw-bold text-gradient-subtle d-inline-flex align-items-center" do %>
-        <span>使い方を確認する</span>
-        <i class="bi bi-arrow-right ms-2"></i>
-      <% end %>
+    <!-- 左カラム：ロゴとボタン -->
+    <div class="col-lg-6 text-center z-index-1">
+      <div class="hero-content">
+        <h1 class="display-2 fw-bold text-gradient mb-3 hero-title">Music Hour</h1>
+      </div>
+        <p class="lead hero-subtitle mb-4">深夜の音楽と言葉が紡ぐ<br>特別な時間</p>
+        <%= link_to new_program_path, 
+            class: "btn btn-primary btn-lg rounded-pill px-5 py-3 hover-lift hero-btn" do %>
+          <i class="bi bi-music-note-list me-2"></i>
+          番組を作成する
+        <% end %>
+    </div>
+
+    <!-- 右カラム：サービス説明とリンク -->
+    <div class="col-lg-6 z-index-1">
+      <div class="glass-morphism p-4 p-md-5">
+        <h2 class="h4 fw-bold text-gradient mb-3">深夜ラジオの世界へようこそ</h2>
+        <p class="text-light mb-4">
+          Music Hour は、深夜ラジオをイメージしたサイトです。<br>
+          配信者と視聴者が「お便り」で繋がる<br>
+          新感覚のプラットフォームを体験してみてください
+        </p>
+        <%= link_to "#how-to", class: "text-decoration-none fw-bold text-gradient d-inline-flex align-items-center" do %>
+          <span>使い方を確認する</span>
+          <i class="bi bi-arrow-right ms-2"></i>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
 
 
   <!-- 2カラム構成：お便り + 番組・お便り箱 -->
@@ -78,10 +75,10 @@
       <% if @programs.present? %>
         <section class="glass-morphism p-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="h5 fw-bold text-gradient mb-0">
+            <h2 class="h4 fw-bold text-gradient mb-3">
               <i class="bi bi-broadcast-pin me-2"></i> 最近追加された番組
             </h2>
-            <%= link_to programs_path, class: "btn btn-outline-light btn-sm rounded-pill" do %>
+            <%= link_to programs_path, class: "btn btn-outline-light btn-sm rounded-pill hover-lift" do %>
               <i class="bi bi-arrow-right me-1"></i> すべて見る
             <% end %>
           </div>
@@ -147,26 +144,6 @@
 </div>
 
 <style>
-  /* モダンなカラーテーマへの更新 */
-
-  /* カードやセクションの背景: application.bootstrap.scssの定義に近づける */
-  .glass-morphism {
-    background-color: rgba(49, 50, 62, 0.75);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.9);
-  }
-
-  /* セクション内部のコンテンツ背景（カード等）: 少し青みを加える */
-  .glass-card {
-    background-color: #2a2c3c; /* #31323E から変更 */
-    border-radius: 0.75rem;
-    padding: 1.25rem;
-    height: 100%;
-    border: 1px solid rgba(192, 202, 245, 0.1); /* 境界線を追加 */
-  }
-
   /* スワイパーサイズ調整: glass-morphismを適用して透明感を出す */
   swiper-container {
     background: rgba(17, 18, 26, 0.7);
