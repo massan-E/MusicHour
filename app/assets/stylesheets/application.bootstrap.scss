@@ -127,17 +127,18 @@ header {
 
 // グラスモーフィズム
 .glass-morphism {
-  background-color: rgba(49, 50, 62, 0.75);
+  background-color: rgba(26, 27, 38, 0.85);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
   border-radius: 10px;
   box-shadow: 10px 15px 8px #070707ff;
   margin-bottom: 2rem;
+  border: 1px solid rgba(192, 202, 245, 0.1);
 }
 
 /* セクション内部のコンテンツ背景（カード等） */
 .glass-card {
-  background-color: #2a2c3c;
+  background-color: rgba(26, 27, 38, 1);
   border-radius: 0.75rem;
   padding: 1.25rem;
   height: 100%;
@@ -145,11 +146,10 @@ header {
 }
 
 .glass-morphism-signup {
-  background: rgba(25, 26, 36, 0.986);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(192, 202, 245, 0.1),
-    inset 0 0 0 1px rgba(192, 202, 245, 0.1);
+  background: rgba(26, 27, 38, 0.986);
+  backdrop-filter: blur(2px);
+  border-radius: 10px;
+  box-shadow: 10px 15px 8px #070707ff;
 }
 
 // リンクとナビゲーション
@@ -554,8 +554,8 @@ a {
 }
 // ヘッダー関連のスタイル
 .glass {
-  // background: rgba(26, 27, 38, 0.95);
-  background: rgba(30, 32, 44, 1);
+  background: rgba(26, 27, 38, 0.95);
+  // background: rgba(30, 32, 44, 1);
   backdrop-filter: blur(12px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(192, 202, 245, 0.1);
@@ -662,7 +662,7 @@ a {
 .letter-card {
   // レターコンテンツの詳細設定
   .letter-body {
-    background: rgba(26, 27, 38, 0.3);
+    background-color:rgba(17, 18, 22, 1);
     border-radius: 12px;
     margin-bottom: 1rem;
   }
