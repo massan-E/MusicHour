@@ -97,23 +97,29 @@
   <div class="row g-4 mb-5">
     <!-- お便り箱一覧 -->
     <div class="col-lg-6">
-      <div class="glass-morphism p-4 h-100 d-flex flex-column">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="text-gradient h5 fw-bold mb-0">
+      <% if producer?(current_user, @program) || current_user&.admin? %>
+        <%= link_to new_program_letterbox_path(@program), class: "btn btn-outline-light btn-sm rounded-pill" do %>
+          <i class="bi bi-plus me-1"></i> 作成
+        <% end %>
+      <% end %>
+
+      <% if @letterboxes.present? %>
+        <section class="glass-morphism p-4">
+          <h2 class="h4 fw-bold text-gradient mb-3">
             <i class="bi bi-mailbox me-2"></i> お便り箱一覧
           </h2>
-          <% if producer?(current_user, @program) || current_user&.admin? %>
-            <%= link_to new_program_letterbox_path(@program), class: "btn btn-outline-light btn-sm rounded-pill" do %>
-              <i class="bi bi-plus me-1"></i> 作成
-            <% end %>
-          <% end %>
-        </div>
 
-        <div class="overflow-auto" style="max-height: 320px">
-          <%= render partial: "letterboxes/letterbox", collection: @letterboxes, as: :letterbox, locals: { current_user: current_user } %>
-        </div>
-      </div>
+          <swiper-container class="mySwiper letterboxes-swiper" scrollbar="true" slides-per-view="1.5" space-between="20" free-mode="true" navigation="true">
+            <% @letterboxes.each do |letterbox| %>
+              <swiper-slide>
+                <%= render letterbox %>
+              </swiper-slide>
+            <% end %>
+          </swiper-container>
+        </section>
+      <% end %>
     </div>
+
 
     <!-- Star ランキング -->
     <div class="col-lg-6">
@@ -156,28 +162,47 @@
 
 <style>
   swiper-container {
+    background: rgba(17, 18, 26, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
     width: 100%;
-    height: 280px;
   }
 
-  swiper-slide {
-    border-radius: 12px;
+  .programs-swiper swiper-slide {
     background-position: center;
+    background-size: cover;
     width: 80%;
-    height: 90%;
+    height: 280px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
+  .letterboxes-swiper swiper-slide {
+    height: 420px; /* 十分な高さを確保 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .letterboxes-swiper .card {
+    height: 350px;
+  }
+
   @media (max-width: 992px) {
     swiper-container {
-      height: 400px;
+      height: 500px;
     }
+
     swiper-slide {
       width: 100%;
     }
+
+    .accordion-custom {
+      max-width: 100%;
+    }
   }
+
 
   /* 管理者用ドロップダウンメニューのスタイル調整 */
   .dropdown-menu.glass-morphism {

@@ -9,7 +9,7 @@
       <div class="hero-content">
         <h1 class="display-2 fw-bold text-gradient mb-3 hero-title">Music Hour</h1>
       </div>
-        <p class="lead hero-subtitle mb-4">深夜の音楽と言葉が紡ぐ<br>特別な時間</p>
+        <p class="lead hero-subtitle mb-4">はがき職人募集中</p>
         <%= link_to new_program_path, 
             class: "btn btn-primary btn-lg rounded-pill px-5 py-3 hover-lift hero-btn" do %>
           <i class="bi bi-music-note-list me-2"></i>
@@ -45,11 +45,11 @@
         </h2>
 
         <% if @letterboxes.present? %>
-          <div class="accordion-custom overflow-auto" style="max-height: 800px;" >
+          <div class="accordion-custom overflow-auto" style="max-height: 600px;" >
             <% @letterboxes.each_with_index do |letterbox, index| %>
               <div class="accordion-box">
                 <input type="radio" id="toggle<%= index %>" name="letterbox-accordion" class="toggle">
-                <label class="title scroll w-100" for="toggle<%= index %>">
+                <label class="title w-100" for="toggle<%= index %>">
                   <h4 class="card-title h5 mb-lg-4 mb-1 scroll">
                     <span class="text-gradient fw-bold"><%= letterbox.title %></span>
                   </h4>
@@ -83,8 +83,8 @@
             <% end %>
           </div>
 
-          <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
-                            autoplay-delay="7200" speed="2400" scrollbar-hide="true">
+          <swiper-container class="mySwiper programs-swiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
+                            autoplay-delay="7200" speed="2400" scrollbar="true">
             <% @programs.each do |program| %>
               <swiper-slide>
                 <% if program.image.attached?  %>
@@ -105,16 +105,17 @@
       <!-- 最近追加されたお便り箱 -->
       <% if @letterboxes.present? %>
         <section class="glass-morphism p-4">
-          <h2 class="h5 fw-bold text-gradient mb-3">
+          <h2 class="h4 fw-bold text-gradient mb-3">
             <i class="bi bi-mailbox me-2"></i> 最近追加されたお便り箱
           </h2>
 
-          <div class="row g-3">
-            <%= render partial: "letterboxes/letterbox",
-                  collection: @letterboxes.last(10),
-                  as: :letterbox,
-                  locals: { current_user: current_user } %>
-          </div>
+          <swiper-container class="mySwiper letterboxes-swiper" scrollbar="true" slides-per-view="1.5" space-between="20" free-mode="true" navigation="true">
+            <% @letterboxes.each do |letterbox| %>
+              <swiper-slide>
+                <%= render letterbox %>
+              </swiper-slide>
+            <% end %>
+          </swiper-container>
         </section>
       <% end %>
     </div>
@@ -152,7 +153,7 @@
     width: 100%;
   }
 
-  swiper-slide {
+  .programs-swiper swiper-slide {
     background-position: center;
     background-size: cover;
     width: 80%;
@@ -160,6 +161,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .letterboxes-swiper swiper-slide {
+    height: 420px; /* 十分な高さを確保 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .letterboxes-swiper .card {
+    height: 350px;
   }
 
   /* カスタムアコーディオンスタイル */
