@@ -46,8 +46,12 @@
         <% end %>
 
         <% if @program.image.attached? %>
-          <div class="my-3 me-lg-3">
-            <%= image_tag @program.image, class: "img-fluid rounded" %>
+          <div class="my-3 me-lg-3 d-flex justify-content-center">
+            <%= image_tag @program.image.variant(resize_to_limit: [569, 320]), class: "img-fluid rounded" %>
+          </div>
+        <% else %>
+          <div class="my-3 me-lg-3 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-25">
+            <p class="text-white-50 mb-0">No image available</p>
           </div>
         <% end %>
 

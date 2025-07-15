@@ -554,8 +554,9 @@ a {
 }
 // ヘッダー関連のスタイル
 .glass {
-  background: rgba(26, 27, 38, 0.95);
+  background: rgba(26, 27, 38, 0.945);
   // background: rgba(30, 32, 44, 1);
+  // background: rgba(17, 18, 26, 0.945); // 初代ヘッダーの背景色
   backdrop-filter: blur(12px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(192, 202, 245, 0.1);

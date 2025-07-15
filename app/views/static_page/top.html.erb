@@ -94,9 +94,11 @@
               <swiper-slide>
                 <% if ranking.program.image.attached?  %>
                   <%= link_to ranking.program, class: "d-flex flex-column hover-lift", data: { turbo: false } do %>
-                    <%= image_tag ranking.program.image,
-                      class: "w-100 h-100",
-                      style: "object-fit: contain; max-height: 100%;" %>
+                    <div class="image-wrapper d-flex align-items-center justify-content-center" style="height: 270px;">
+                      <%= image_tag ranking.program.image,
+                        class: "w-100 h-100",
+                        style: "object-fit: contain; max-height: 90%;" %>
+                    </div>
                   <% end %>
                 <% else %>
                   <%= render ranking.program %>
