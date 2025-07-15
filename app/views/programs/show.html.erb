@@ -1,3 +1,4 @@
+<script async src="//cdn.iframe.ly/embed.js?key=<%= Rails.application.credentials.dig(:iframely, :api_key) %>&card=small"></script>
 <div class="container py-5">
   <%= render 'shared/flash_message' %>
 
@@ -32,12 +33,12 @@
     <% end %>
     <div class="row g-4">
       <!-- 左カラム：タイトル・画像・リンク -->
-      <h1 class="text-gradient display-6 fw-bold">
+      <h2 class="text-gradient fw-bold">
         <i class="bi bi-broadcast-pin me-2"></i>
         <%= @program.title %>
-      </h1>
+      </h2>
       <div class="col-md-6">
-        <h4 class="text-gradient mb-4"><%= "総お便り数：#{@program.letters.count} 件"%></h4>
+        <h5 class="text-gradient mb-4"><%= "総お便り数：#{@program.letters.count} 件"%></h5>
 
         <% unless @program.publish? %>
           <div class="alert alert-warning py-2">
@@ -50,14 +51,14 @@
             <%= image_tag @program.image.variant(resize_to_limit: [569, 320]), class: "img-fluid rounded" %>
           </div>
         <% else %>
-          <div class="my-3 me-lg-3 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-25">
+          <div class="my-3 me-lg-3 d-flex align-items-center justify-content-center bg-dark" style="width: 569px; height: 320px;">
             <p class="text-white-50 mb-0">No image available</p>
           </div>
         <% end %>
 
         <% if @program.url.present? %>
-          <div class="mb-3">
-            <h6 class="text-gradient fw-bold">LINK</h6>
+          <div class="my-3 me-lg-3">
+            <h5 class="text-gradient fw-bold mb-4">LINK</h5>
             <div class="iframely-embed">
               <div class="iframely-responsive">
                 <a data-iframely-url href="<%= @program.url %>"></a>
@@ -181,7 +182,7 @@
     <%= render "letters/form", letter: @letter, program: @program %>
   </div>
 
-  <%= link_to programs_path, class: "btn btn-outline-light rounded-pill px-4" do %>
+  <%= link_to programs_path, class: "btn btn-outline-light rounded-pill px-4 mt-4 hover-lift" do %>
     <i class="bi bi-arrow-left me-2"></i> 番組一覧へ戻る
   <% end %>
 </div>
