@@ -44,7 +44,7 @@
             <div class="d-flex gap-3">
               <div class="flex-grow-1">
                 <%= f.select :publish_eq, 
-                    [['すべて', ''], ['公開', true], ['非公開', false]], 
+                    [['公開/非公開', ''], ['公開', true], ['非公開', false]], 
                     {}, 
                     { class: 'form-select' } %>
               </div>
@@ -58,7 +58,6 @@
         </div>
       <% end %>
 
-
       <div class="search-results-section text-center mt-1 mb-4">
         <div class="result-count my-3">
           検索結果: <%= "#{@result.count}件" %>
@@ -68,10 +67,12 @@
 
     <%= turbo_frame_tag "letters-list" do %>
       <div class="row g-4">
-        <%= render partial: "letterboxes/letterbox", 
-              collection: @letterboxes, 
-              as: :letterbox,
-              locals: { current_user: current_user } %>
+        <% @letterboxes.each do |letterbox| %>
+          <div class="col-lg-6">
+            <%= render partial: "letterboxes/letterbox", 
+                  locals: { letterbox: letterbox, current_user: current_user } %>
+          </div>
+        <% end %>
       </div>
       <%= paginate @letterboxes, 
           theme: 'bootstrap-5',

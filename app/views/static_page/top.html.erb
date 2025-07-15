@@ -45,7 +45,7 @@
         </h2>
 
         <% if @letterboxes.present? %>
-          <div class="accordion-custom overflow-auto" style="max-height: 600px;" >
+          <div class="accordion-custom overflow-auto" style="max-height: 857px;" >
             <% @letterboxes.each_with_index do |letterbox, index| %>
               <div class="accordion-box">
                 <input type="radio" id="toggle<%= index %>" name="letterbox-accordion" class="toggle">
@@ -55,9 +55,17 @@
                   </h4>
                 </label>
                 <div class="content">
-                  <p><%= truncate(letterbox.body, length: 100) %></p>
+                  <div class="text-truncate-container card-text mb-0">
+                    <p><%= markdown(letterbox.body) %></p>
+                  </div>
                   <div class="text-end m-3">
-                    <%= link_to '見に行ってみる', program_path(letterbox.program), class: "btn btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center hover-lift" %>
+                    <%= link_to program_path(letterbox.program, letter: {letterbox_id: letterbox.id}, anchor: "letterForm"),
+                        class: "btn btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center hover-lift",
+                        data: { turbo: false }  do %>
+                      <i class="bi bi-pencil-square me-2"></i>
+                      <span>お便りを書く</span>
+                      <i class="bi bi-arrow-right ms-2 transition-icon"></i>
+                    <% end %>
                   </div>
                 </div>
               </div>
@@ -109,7 +117,7 @@
             <i class="bi bi-mailbox me-2"></i> 最近追加されたお便り箱
           </h2>
 
-          <swiper-container class="mySwiper letterboxes-swiper" scrollbar="true" slides-per-view="1.5" space-between="20" free-mode="true" navigation="true">
+          <swiper-container class="mySwiper letterboxes-swiper" scrollbar="true" slides-per-view="1.4" free-mode="true" navigation="true">
             <% @letterboxes.each do |letterbox| %>
               <swiper-slide>
                 <%= render letterbox %>
@@ -147,7 +155,7 @@
 <style>
   /* スワイパーサイズ調整: glass-morphismを適用して透明感を出す */
   swiper-container {
-    background: rgba(17, 18, 26, 0.7);
+    background-color:rgb(21, 22, 26);
     backdrop-filter: blur(5px);
     border-radius: 10px;
     width: 100%;

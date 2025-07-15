@@ -94,60 +94,82 @@
   </div>
 
   <!-- お便り一覧 + Starランキング -->
-  <div class="row g-4 mb-5">
+  <div class="row g-4 mb-4">
     <!-- お便り箱一覧 -->
     <div class="col-lg-6">
-      <% if producer?(current_user, @program) || current_user&.admin? %>
-        <%= link_to new_program_letterbox_path(@program), class: "btn btn-outline-light btn-sm rounded-pill" do %>
-          <i class="bi bi-plus me-1"></i> 作成
-        <% end %>
-      <% end %>
 
       <% if @letterboxes.present? %>
-        <section class="glass-morphism p-4">
-          <h2 class="h4 fw-bold text-gradient mb-3">
-            <i class="bi bi-mailbox me-2"></i> お便り箱一覧
+        <section class="glass-morphism p-4 h-30">
+          <h2 class="h4 fw-bold text-gradient mb-4">
+            <i class="bi bi-envelope-paper-fill me-2"></i> お便り箱一覧 （ <%= @letterboxes.count %> 件 ）
           </h2>
 
-          <swiper-container class="mySwiper letterboxes-swiper" scrollbar="true" slides-per-view="1.5" space-between="20" free-mode="true" navigation="true">
-            <% @letterboxes.each do |letterbox| %>
-              <swiper-slide>
-                <%= render letterbox %>
-              </swiper-slide>
-            <% end %>
-          </swiper-container>
+          <% if @letterboxes.present? %>
+            <div class="accordion-custom overflow-auto" style="height: 400px;" >
+              <% @letterboxes.each_with_index do |letterbox, index| %>
+                <div class="accordion-box">
+                  <input type="radio" id="toggle<%= index %>" name="letterbox-accordion" class="toggle">
+                  <label class="title w-100" for="toggle<%= index %>">
+                    <h4 class="card-title h5 mb-lg-4 mb-1 scroll">
+                      <span class="text-gradient fw-bold"><%= letterbox.title %></span>
+                    </h4>
+                  </label>
+                  <div class="content">
+                    <div class="text-truncate-container card-text mb-0">
+                      <p><%= markdown(letterbox.body) %></p>
+                    </div>
+                    <div class="text-end m-3">
+                      <% if current_user&.admin? || producer?(current_user, letterbox.program) %>
+                        <%= link_to '箱の中のお便り', program_letters_path(letterbox.program, q: { letterbox_id_eq: letterbox.id }), class: "btn btn-outline-light px-3 py-2 mt-1 me-3 hover-lift", data: { turbo: false } %>
+                      <% end %>
+                      <%= link_to program_path(letterbox.program, letter: {letterbox_id: letterbox.id}, anchor: "letterForm"),
+                          class: "btn btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center hover-lift",
+                          data: { turbo: false }  do %>
+                        <i class="bi bi-pencil-square me-2"></i>
+                        <span>お便りを書く</span>
+                        <i class="bi bi-arrow-right ms-2 transition-icon"></i>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-gradient">お便り箱はまだありません。</p>
+          <% end %>
         </section>
       <% end %>
     </div>
 
-
     <!-- Star ランキング -->
     <div class="col-lg-6">
-      <div class="glass-morphism p-4 h-100">
-        <h2 class="text-gradient h5 fw-bold mb-3">
+      <section class="glass-morphism p-4 h-30">
+        <h2 class="h4 fw-bold text-gradient mb-4">
           <i class="bi bi-star me-2"></i> Starランキング
         </h2>
 
-        <% if @program.not_set? %>
-          <p class="text-warning">ランキング集計が未設定です</p>
-        <% elsif @star_rankings.blank? %>
-          <p class="text-muted">ランキングがありません。</p>
-        <% else %>
-          <swiper-container class="mySwiper" navigation="true" effect="coverflow" centered-slides="true" slides-per-view="auto"
-                            autoplay-delay="7200" speed="2400" scrollbar-hide="true">
-            <% @star_rankings.each_with_index do |(user, star), i| %>
-              <swiper-slide>
-                <%= render "shared/star_ranking", program: @program, user: user, rank: i + 1, star: star %>
-              </swiper-slide>
-            <% end %>
-          </swiper-container>
-        <% end %>
-      </div>
+        <div style="height: 400px;">
+          <% if @program.not_set? %>
+            <p class="text-gradient">ランキング集計が未設定です</p>
+          <% elsif @star_rankings.blank? %>
+            <p class="text-gradient">ランキングがありません。</p>
+          <% else %>
+            <swiper-container class="mySwiper" effect="coverflow" centered-slides="true" slides-per-view="auto"
+                              autoplay-delay="7200" speed="600" scrollbar="true">
+              <% @star_rankings.each_with_index do |(user, star), i| %>
+                <swiper-slide>
+                  <%= render "shared/star_ranking", program: @program, user: user, rank: i + 1, star: star %>
+                </swiper-slide>
+              <% end %>
+            </swiper-container>
+          <% end %>
+        </div>
+      </section>
     </div>
   </div>
 
   <!-- お便り投稿フォーム -->
-  <div class="glass-morphism p-4 mb-5" id="letterForm">
+  <div class="glass-morphism p-4 mb-3" id="letterForm">
     <h2 class="text-gradient h5 fw-bold mb-4">
       <i class="bi bi-envelope me-2"></i>
       お便りはこちらから
@@ -162,47 +184,30 @@
 
 <style>
   swiper-container {
-    background: rgba(17, 18, 26, 0.7);
-    backdrop-filter: blur(5px);
-    border-radius: 10px;
     width: 100%;
+    height: 100%;
+    background-color:rgb(21, 22, 26);
   }
 
-  .programs-swiper swiper-slide {
+  swiper-slide {
+    border-radius: 12px;
     background-position: center;
-    background-size: cover;
-    width: 80%;
-    height: 280px;
+    width: 90%;
+    height: 90%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .letterboxes-swiper swiper-slide {
-    height: 420px; /* 十分な高さを確保 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .letterboxes-swiper .card {
-    height: 350px;
-  }
-
   @media (max-width: 992px) {
     swiper-container {
-      height: 500px;
+      width: ;
+      height: 500px; 
     }
-
     swiper-slide {
       width: 100%;
     }
-
-    .accordion-custom {
-      max-width: 100%;
-    }
   }
-
 
   /* 管理者用ドロップダウンメニューのスタイル調整 */
   .dropdown-menu.glass-morphism {
@@ -215,4 +220,85 @@
     background-color: rgba(255, 255, 255, 0.1);
     color: #ffffff;
   }
+
+    /* カスタムアコーディオンスタイル */
+  .accordion-custom {
+    width: 100%;
+  }
+
+  .toggle {
+    display: none;
+  }
+
+  .title,
+  .content {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: all 0.3s;
+  }
+
+  .title {
+    background-color: #1e202c;
+    border: none;
+    padding: 1em;
+    display: block;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+  }
+
+  .title::after,
+  .title::before {
+    content: "";
+    position: absolute;
+    right: 1.25em;
+    top: 1.4em;
+    width: 2px;
+    height: 0.75em;
+    transition: all 0.3s;
+  }
+
+  .title::after {
+    transform: rotate(90deg);
+  }
+
+  .content {
+    max-height: 0;
+    overflow: hidden;
+    background-color:rgba(17, 18, 22, 0.62);
+  }
+
+  .content p {
+    margin: 0;
+    padding: 0.5em 1em 0.5em;
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .toggle:checked + .title {
+    background-color:rgb(17, 18, 22);
+  }
+
+  .toggle:checked + .title + .content {
+    max-height: 500px;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .toggle:checked + .title::before {
+    transform: rotate(90deg) !important;
+    opacity: 0;
+  }
+
+  /* アコーディオンを開いた時のアニメーション強化 */
+  .toggle:checked + .title {
+    background: linear-gradient(90deg, #31323E, #3a3b4a);
+  }
+
+  .toggle:checked + .title::after {
+    background-color: rgba(143, 148, 251, 0.8);
+  }
+
 </style>

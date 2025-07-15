@@ -1,5 +1,5 @@
 <div id="<%= dom_id letterbox %>">
-  <div class="card glass-morphism h-100 border-0 letter-card d-flex flex-column ms-3">
+  <div class="card glass-morphism h-100 border-0 letter-card d-flex flex-column ms-4">
     <div class="card-body p-lg-4 p-2 d-flex flex-column">
       <div class="program-link mb-3">
         <%= link_to letterbox.program,
@@ -39,8 +39,8 @@
     <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-4">
       <div class="d-flex justify-content-center align-items-center">
         <% if current_user&.admin? || producer?(current_user, letterbox.program) %>
-          <div class="mt-1 me-2 hover-lift">
-            <%= link_to 'このお便り箱のお便り一覧', program_letters_path(letterbox.program, q: { letterbox_id_eq: letterbox.id }), method: :get, class: "btn btn-sm btn-outline-light" %>
+          <div class="mt-1 me-3 hover-lift">
+            <%= link_to '箱の中のお便り', program_letters_path(letterbox.program, q: { letterbox_id_eq: letterbox.id }), class: "btn btn-outline-light px-3 py-2", data: { turbo: false } %>
           </div>
         <% end %>
         <% unless action_name == "index" %>
@@ -54,22 +54,32 @@
         <% end %>
 
         <% if action_name == "index" %>
-          <%= render "shared/publish_buttons", object: letterbox, program: letterbox.program %>
-          <% if (producer?(current_user, letterbox.program) || current_user&.admin?) %>
-            <%= link_to edit_program_letterbox_path(letterbox.program, letterbox),
-                class: "btn btn-primary rounded-pill float-end px-4 py-2 mt-3 ms-3 hover-lift",
-                data: { turbo: false } do %>
-              <i class="bi bi-pencil"></i>
+          <div class="d-flex align-items-center">
+            <% if (producer?(current_user, letterbox.program) || current_user&.admin?) %>
+              <div class="ms-auto d-flex">
+                <%= link_to edit_program_letterbox_path(letterbox.program, letterbox),
+                    class: "btn btn-outline-light px-3 py-2 hover-lift me-3",
+                    data: { turbo: false } do %>
+                  <i class="bi bi-pencil"></i> 編集
+                <% end %>
+                <%= render "shared/publish_buttons", object: letterbox, program: letterbox.program %>
+                <%= button_to program_letterbox_path(letterbox.program, letterbox),
+                    method: :delete,
+                    class: "btn btn-outline-danger rounded-pill px-3 py-2 hover-lift ms-3",
+                    form: { data: { turbo_confirm: "本当に削除しますか？" } } do %>
+                  <i class="bi bi-trash"></i> 削除
+                <% end %>
+              </div>
             <% end %>
-            <%= button_to program_letterbox_path(letterbox.program, letterbox),
-                method: :delete,
-                class: "btn btn-outline-danger btn-sm hover-lift",
-                form: { data: { turbo_confirm: "本当に削除しますか？" } } do %>
-              <i class="bi bi-trash"></i>
-            <% end %>
-          <% end %>
+          </div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  .card {
+    height: 350px;
+  }
+</style>

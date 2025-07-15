@@ -25,6 +25,7 @@
   }
 %>
 
+<div class=" d-flex flex-column">
 <div class="ranking-card <%= style[:class] %> position-relative overflow-hidden shadow-lg w-100 h-100">
   <!-- メタリックリフレクション効果 -->
   <div class="metallic-reflection"></div>
@@ -72,6 +73,7 @@
     </div>
   </div>
 </div>
+</div>
 
 <style>
   /* ベースカードスタイル */
@@ -83,11 +85,7 @@
     position: relative;
     overflow: hidden;
   }
-  
-  // .ranking-card:hover {
-  //   transform: scale(1.03);
-  // }
-  
+
   /* メタリック効果 - 左から右に流れる版 */
   .metallic-reflection {
     position: absolute;
