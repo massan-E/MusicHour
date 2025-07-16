@@ -116,6 +116,14 @@
                 <label class="title w-100" for="toggle<%= index %>">
                   <h4 class="card-title h5 mb-lg-4 mb-1 scroll">
                     <span class="text-gradient fw-bold"><%= letterbox.title %></span>
+                    <% if letterbox.letters_visible %>
+                      <span class="badge bg-gradient-info"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title="このお便り箱のお便りは配信以外でも公開される可能性があります">
+                        <i class="bi bi-eye-fill me-1"></i>お便り公開設定
+                      </span>
+                    <% end %>
                   </h4>
                 </label>
                 <div class="content">
