@@ -17,18 +17,18 @@
 
       <h4 class="card-title h5 mb-2 scroll">
         <span class="text-gradient fw-bold"><%= letterbox.title %></span>
+      </h4>
+
+      <p class="mb-3">
+        <span class="text-gradient me-3"><%= "お便り：#{letterbox.letters.count} 件"%></span>
         <% if letterbox.letters_visible %>
-          <span class="badge bg-gradient-info ms-2"
+          <span class="badge bg-gradient-info"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
                 title="このお便り箱のお便りは配信以外でも公開される可能性があります">
             <i class="bi bi-eye-fill me-1"></i>お便り公開設定
           </span>
         <% end %>
-      </h4>
-
-      <p class="text-gradient mb-3">
-        <%= "お便り：#{letterbox.letters.count} 件"%>
       </p>
 
       <div class="letterbox-body rounded mb-1 flex-grow-1 card-text" style="overflow-y: auto; height: 80px;">
@@ -60,14 +60,14 @@
                 <%= link_to edit_program_letterbox_path(letterbox.program, letterbox),
                     class: "btn btn-outline-light px-3 py-2 hover-lift me-3",
                     data: { turbo: false } do %>
-                  <i class="bi bi-pencil"></i> 編集
+                  <i class="bi bi-pencil"></i> 編集する
                 <% end %>
                 <%= render "shared/publish_buttons", object: letterbox, program: letterbox.program %>
                 <%= button_to program_letterbox_path(letterbox.program, letterbox),
                     method: :delete,
-                    class: "btn btn-outline-danger rounded-pill px-3 py-2 hover-lift ms-3",
+                    class: "btn btn-outline-danger px-3 py-2 hover-lift ms-3",
                     form: { data: { turbo_confirm: "本当に削除しますか？" } } do %>
-                  <i class="bi bi-trash"></i> 削除
+                  <i class="bi bi-trash"></i> 削除する
                 <% end %>
               </div>
             <% end %>
