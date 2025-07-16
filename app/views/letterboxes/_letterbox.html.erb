@@ -40,7 +40,9 @@
       <div class="d-flex justify-content-center align-items-center">
         <% if current_user&.admin? || producer?(current_user, letterbox.program) %>
           <div class="mt-1 me-3 hover-lift">
-            <%= link_to '箱の中のお便り', program_letters_path(letterbox.program, q: { letterbox_id_eq: letterbox.id }), class: "btn btn-outline-light px-3 py-2", data: { turbo: false } %>
+            <%= link_to program_letters_path(letterbox.program, q: { letterbox_id_eq: letterbox.id }), class: "btn btn-outline-light px-2 py-2", data: { turbo: false } do %>
+          <i class="bi bi-archive"></i> 箱の中のお便り
+        <% end %>
           </div>
         <% end %>
         <% unless action_name == "index" %>
