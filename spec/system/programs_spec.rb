@@ -12,14 +12,14 @@ RSpec.describe 'Programs', type: :system do
       visit new_program_path
       fill_in 'タイトル', with: 'テスト番組'
       fill_in '説明', with: '番組の説明文です'
-      click_button '登録'
+      click_button '作成'
       expect(page).to have_content '番組を作成しました'
     end
 
     context '不正な入力の場合' do
       it 'エラーメッセージが表示されること', js: true do
         visit new_program_path
-        click_button '登録'
+        click_button '作成'
         expect(page).to have_content '番組を作成できませんでした'
       end
     end
