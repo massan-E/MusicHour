@@ -1,4 +1,8 @@
-<div class="glass-morphism p-4">
+<div class="glass-morphism p-4" id="letterForm">
+  <h2 class="h4 fw-bold text-gradient mb-4">
+    <i class="bi bi-envelope me-2"></i>
+    お便りはこちらから
+  </h2>
   <%= form_with(model: letter, url: letter_action_path(letter, program), class: "needs-validation",data: { turbo_frame: 'letter_modal' }) do |form| %>
     <% if letter.errors.any? %>
       <div class="alert alert-danger">

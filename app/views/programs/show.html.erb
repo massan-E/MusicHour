@@ -172,13 +172,7 @@
   </div>
 
   <!-- お便り投稿フォーム -->
-  <div class="glass-morphism p-4 mb-3" id="letterForm">
-    <h2 class="h4 fw-bold text-gradient mb-4">
-      <i class="bi bi-envelope me-2"></i>
-      お便りはこちらから
-    </h2>
-    <%= render "letters/form", letter: @letter, program: @program %>
-  </div>
+  <%= render "letters/form", letter: @letter, program: @program %>
 
   <%= link_to programs_path, class: "btn btn-outline-light rounded-pill px-4 mt-4 hover-lift" do %>
     <i class="bi bi-arrow-left me-2"></i> 番組一覧へ戻る
