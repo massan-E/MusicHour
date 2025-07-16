@@ -4,7 +4,6 @@ namespace :ranking do
     ProgramRanking.delete_all
 
     rankings = Letter.joins(:program)
-                     .where(created_at: 2.weeks.ago..)
                      .where(programs: { publish: true })
                      .where.not(program_id: nil)
                      .group(:program_id)

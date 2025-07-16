@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "letter_modal" do %>
   <div class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-75" style="z-index: 1050;" data-controller="letter_modal" data-letter_modal-target="backGround" data-action="click->letter_modal#closeBackground">
     <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-lg-down modal-lg w-lg-800"  role="document" data-letter_modal-target="letterModal">
-      <div class="modal-content glass-morphism rounded-4 shadow-lg border-0 position-relative">
+      <div class="modal-content glass-morphism rounded-4 shadow-lg border-0 position-relative" style="background-color: rgba(49, 50, 62, 1);">
         <button class="btn-close btn-close-white position-absolute top-0 end-0 p-4 z-1" data-action="click->letter_modal#closeModal" aria-label="Close"></button>
         <div class="modal-header border-0 px-4 pt-4">
           <% if letter.errors.any? %>
@@ -27,14 +27,14 @@
             <% if letter.errors.include?(:letterbox) %>
               <p class="text-danger small mb-0"><i class="bi bi-exclamation-circle-fill me-1"></i>エラーがあります</p>
             <% end %>
-            <p class="mb-0 ps-3 p-2 rounded-3" style="background: rgba(0,0,0,0.2); overflow-y: auto;"><%= letter&.letterbox&.title %></p>
+            <p class="mb-0 ps-3 p-2 rounded-3" style="background: rgb(21, 22, 26, 0.8); overflow-y: auto;"><%= letter&.letterbox&.title %></p>
           </div>
           <div class="mb-3">
             <p class="fw-bold text-gradient-subtle mb-1">ラジオネーム</p>
             <% if letter.errors.include?(:radio_name) %>
               <p class="text-danger small mb-0"><i class="bi bi-exclamation-circle-fill me-1"></i>エラーがあります</p>
             <% end %>
-            <p class="mb-0 ps-3 p-2 rounded-3" style="background: rgba(0,0,0,0.2); overflow-y: auto;"><%= letter.radio_name %></p>
+            <p class="mb-0 ps-3 p-2 rounded-3" style="background: rgb(21, 22, 26, 0.8); overflow-y: auto;"><%= letter.radio_name %></p>
           </div>
           <div>
             <p class="fw-bold text-gradient-subtle mb-1">本文</p>
@@ -42,7 +42,7 @@
               <p class="text-danger small mb-0 mt-1"><i class="bi bi-exclamation-circle-fill me-1"></i>エラーがあります</p>
             <% end %>
             <%= letter_body_size(letter) %>
-            <div class="p-3 rounded-3" style="background: rgba(0,0,0,0.2); max-height: 35vh; overflow-y: auto;">
+            <div class="p-3 rounded-3" style="background: rgb(21, 22, 26, 0.8); max-height: 35vh; overflow-y: auto;">
               <%= markdown(letter.body) %>
             </div>
           </div>
