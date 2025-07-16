@@ -12,7 +12,7 @@ body {
   position: relative;
   min-height: 100vh;
   color: #c0caf5;
-  background-color: #31323E; // 背景画像が読み込まれるまでの間の背景色
+  background-color: rgba(23, 24, 31, 1) // 背景画像が読み込まれるまでの間の背景色
 }
 
 body::before {
@@ -976,6 +976,34 @@ footer {
   .w-lg-800 {
     width: 800px !important;
   }
+}
+
+/* カスタムスクロールバースタイル */
+/* Webkit系ブラウザ用 */
+::-webkit-scrollbar {
+  width: 4px; /* スクロールバーの幅 */
+  height: 8px; /* 横スクロールバーの高さ */
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1b26b3; /* トラックの背景色 */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(17, 18, 26, 0.945); /* つまみの色 */
+  border-radius: 10px;
+  border: 2px solid rgba(26, 27, 38, 0.7); /* つまみの周りのボーダー */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2b2b3a; /* ホバー時のつまみの色 */
+}
+
+/* Firefox用 */
+html {
+  scrollbar-width: thin; /* 'auto' または 'thin' */
+  scrollbar-color: rgba(17, 18, 26, 0.945) rgba(26, 27, 38, 0.7); /* つまみの色 トラックの色 */
 }
 
 #letterForm {

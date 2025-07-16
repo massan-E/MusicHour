@@ -63,6 +63,16 @@
                   </h4>
                 </label>
                 <div class="content">
+                  <div class="program-link m-3">
+                    <%= link_to letterbox.program,
+                        class: "d-flex align-items-center text-decoration-none text-gradient-subtle",
+                        data: { turbo: false }  do %>
+                      <div class="program-info scroll">
+                        <small class="d-block text-gradient-subtle mb-1">Program</small>
+                        <span class="fw-medium"><%= letterbox.program.title %></span>
+                      </div>
+                    <% end %>
+                  </div>
                   <div class="text-truncate-container card-text mb-0">
                     <p><%= markdown(letterbox.body) %></p>
                   </div>
