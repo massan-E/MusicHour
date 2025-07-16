@@ -19,7 +19,9 @@
         </div>
 
         <div class="text-end mt-4">
-          <%= f.submit "再設定メールを送信", class: "btn btn-primary rounded-pill px-4 hover-lift" %>
+          <button type="submit" class="btn btn-primary rounded-pill px-4 hover-lift">
+            <i class="bi bi-envelope-check me-2"></i> 再設定メールを送信
+          </button>
           <%= link_to "戻る", 'javascript:history.back()', class: "btn btn-outline-light rounded-pill px-4 hover-lift ms-2" %>
         </div>
       <% end %>

@@ -2,9 +2,9 @@
   <%= form_with(url: letter_update_star_path(letter), method: :patch) do |f| %>
     <div class="evaluation d-flex flex-row-reverse align-items-end">
       <% if producer?(current_user, letter.program) || current_user&.admin? %>
-        <%= f.submit "確定", class: "btn btn-primary hover-lift ms-lg-3 ms-0" do %>
-          <i class="bi bi-check"></i>
-        <% end %>
+        <button type="submit" class="btn btn-primary hover-lift ms-lg-3 ms-0">
+          <i class="bi bi-check"></i> 確定
+        </button>
       <% end %>
 
       <% 5.downto(1) do |i| %>

@@ -7,7 +7,7 @@
     <% if (producer?(current_user, @program) || current_user&.admin?) %>
       <div class="position-absolute top-0 end-0 p-3 p-lg-4" style="z-index: 2;">
         <div class="dropdown">
-          <button class="btn btn-primary rounded-pill hover-lift" type="button" id="programMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-primary rounded-pill btn-lg px-4 hover-lift" type="button" id="programMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-gear-fill"></i>
             <span class="d-none d-lg-inline ms-2">番組管理者用メニュー</span>
           </button>
@@ -132,7 +132,9 @@
                   </div>
                   <div class="text-end m-3">
                     <% if current_user&.admin? || producer?(current_user, letterbox.program) %>
-                      <%= link_to '箱の中のお便り', program_letters_path(letterbox.program, q: { letterbox_id_eq: letterbox.id }), class: "btn btn-outline-light px-3 py-2 mt-1 me-3 hover-lift", data: { turbo: false } %>
+                      <%= link_to program_letters_path(letterbox.program, q: { letterbox_id_eq: letterbox.id }), class: "btn btn-outline-light px-3 py-2 mt-1 me-3 hover-lift", data: { turbo: false } do %>
+                        <i class="bi bi-archive"></i> 箱の中のお便り
+                      <% end %>
                     <% end %>
                     <%= link_to program_path(letterbox.program, letter: {letterbox_id: letterbox.id}, anchor: "letterForm"),
                         class: "btn btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center hover-lift",
@@ -183,8 +185,8 @@
   <%= render "letters/form", letter: @letter, program: @program %>
 
   <%= link_to programs_path, class: "btn btn-outline-light rounded-pill px-4 mt-4 hover-lift" do %>
-    <i class="bi bi-arrow-left me-2"></i> 番組一覧へ戻る
-  <% end %>
+        <i class="bi bi-collection-play me-2"></i> 番組一覧へ
+      <% end %>
 </div>
 
 <style>

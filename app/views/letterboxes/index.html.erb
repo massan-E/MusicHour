@@ -53,7 +53,9 @@
 
           <!-- 検索ボタン -->
           <div class="col-12 col-lg-2">
-            <%= f.submit '検索', class: 'btn btn-primary w-100 rounded-pill hover-lift' %>
+            <button type="submit" class="btn btn-primary w-100 rounded-pill hover-lift">
+            <i class="bi bi-search"></i> 検索
+          </button>
           </div>
         </div>
       <% end %>
@@ -83,7 +85,6 @@
   </div>
 
   <%= link_to @program, class: "btn btn-outline-light rounded-pill px-4 hover-lift" do %>
-    <i class="bi bi-arrow-left me-2"></i>
-    番組詳細へ戻る
-  <% end %>
+        <i class="bi bi-info-circle me-2"></i> 番組詳細へ
+      <% end %>
 </div>

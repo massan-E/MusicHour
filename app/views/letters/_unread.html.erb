@@ -1,4 +1,3 @@
 <%= link_to letter_unread_path(letter), id: "unread-button-for-letter-#{letter.id}", class: "btn btn-outline-light hover-lift", data: { turbo_method: :post } do %>
-  <i class="bi bi-envelope-paper-fill"></i>
-  既読
+  <i class="bi bi-envelope me-2"></i> 未読にする
 <% end %>
