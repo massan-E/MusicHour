@@ -1002,8 +1002,8 @@ footer {
 
 /* Firefox用 */
 html {
-  scrollbar-width: thin; /* 'auto' または 'thin' */
-  scrollbar-color: rgba(17, 18, 26, 0.945) rgba(26, 27, 38, 0.7); /* つまみの色 トラックの色 */
+  scrollbar-width: auto; /* 'auto' または 'thin' */
+  scrollbar-color: rgba(17, 18, 26, 0.945) rgba(26, 27, 38, 0.945); /* つまみの色 トラックの色 */
 }
 
 #letterForm {
