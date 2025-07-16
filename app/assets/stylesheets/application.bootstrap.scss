@@ -57,6 +57,9 @@ header {
 .btn-primary {
   background: $primary-gradient;
   border: none;
+  color: #ffffff;
+  font-weight: bolder;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.945);
   box-shadow: 0 4px 15px rgba(122, 162, 247, 0.2);
   transition: $transition-base;
 
@@ -72,6 +75,7 @@ header {
   color: rgb(192, 202, 245);
   background: transparent;
   transition: $transition-base;
+  font-weight: bolder;
 
   &:hover {
     background: rgba(192, 202, 245, 0.1);
@@ -85,6 +89,7 @@ header {
   color: #f7768e;
   background: transparent;
   transition: $transition-base;
+  font-weight: bolder;
 
   &:hover {
     background: rgba(247, 118, 142, 0.1);
@@ -98,6 +103,7 @@ header {
   color: #4184e4; // ベースの青色
   background: transparent;
   transition: $transition-base;
+  font-weight: bolder;
 
   &:hover {
     background: rgba(65, 132, 228, 0.1); // ホバー時の薄い青色の背景
@@ -497,6 +503,7 @@ a {
   border-radius: 50px;
   color: #c0caf5;
   font-size: 0.9rem;
+  font-weight: bolder;
   transition: all 0.3s ease;
   backdrop-filter: blur(8px);
   text-decoration: none;
@@ -878,10 +885,11 @@ footer {
 .badge.bg-gradient-info {
   background: linear-gradient(120deg, #7aa2f7, #2ac3de);
   border: none;
-  color: #f8f8ff;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.945);
   padding: 0.5em 0.8em;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: bolder;
   transition: $transition-base;
   box-shadow: 0 2px 8px rgba(122, 162, 247, 0.2);
 
