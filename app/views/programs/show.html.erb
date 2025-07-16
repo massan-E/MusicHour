@@ -103,47 +103,45 @@
     <!-- お便り箱一覧 -->
     <div class="col-lg-6">
 
-      <% if @letterboxes.present? %>
-        <section class="glass-morphism p-4 h-30">
-          <h2 class="h4 fw-bold text-gradient mb-4">
-            <i class="bi bi-envelope-paper-fill me-2"></i> お便り箱一覧 （ <%= @letterboxes.count %> 件 ）
-          </h2>
+      <section class="glass-morphism p-4 h-30">
+        <h2 class="h4 fw-bold text-gradient mb-4">
+          <i class="bi bi-envelope-paper-fill me-2"></i> お便り箱一覧 （ <%= @letterboxes.count %> 件 ）
+        </h2>
 
-          <% if @letterboxes.present? %>
-            <div class="accordion-custom overflow-auto" style="height: 400px;" >
-              <% @letterboxes.each_with_index do |letterbox, index| %>
-                <div class="accordion-box">
-                  <input type="radio" id="toggle<%= index %>" name="letterbox-accordion" class="toggle">
-                  <label class="title w-100" for="toggle<%= index %>">
-                    <h4 class="card-title h5 mb-lg-4 mb-1 scroll">
-                      <span class="text-gradient fw-bold"><%= letterbox.title %></span>
-                    </h4>
-                  </label>
-                  <div class="content">
-                    <div class="text-truncate-container card-text mb-0">
-                      <p><%= markdown(letterbox.body) %></p>
-                    </div>
-                    <div class="text-end m-3">
-                      <% if current_user&.admin? || producer?(current_user, letterbox.program) %>
-                        <%= link_to '箱の中のお便り', program_letters_path(letterbox.program, q: { letterbox_id_eq: letterbox.id }), class: "btn btn-outline-light px-3 py-2 mt-1 me-3 hover-lift", data: { turbo: false } %>
-                      <% end %>
-                      <%= link_to program_path(letterbox.program, letter: {letterbox_id: letterbox.id}, anchor: "letterForm"),
-                          class: "btn btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center hover-lift",
-                          data: { turbo: false }  do %>
-                        <i class="bi bi-pencil-square me-2"></i>
-                        <span>お便りを書く</span>
-                        <i class="bi bi-arrow-right ms-2 transition-icon"></i>
-                      <% end %>
-                    </div>
+        <% if @letterboxes.present? %>
+          <div class="accordion-custom overflow-auto" style="height: 400px;" >
+            <% @letterboxes.each_with_index do |letterbox, index| %>
+              <div class="accordion-box">
+                <input type="radio" id="toggle<%= index %>" name="letterbox-accordion" class="toggle">
+                <label class="title w-100" for="toggle<%= index %>">
+                  <h4 class="card-title h5 mb-lg-4 mb-1 scroll">
+                    <span class="text-gradient fw-bold"><%= letterbox.title %></span>
+                  </h4>
+                </label>
+                <div class="content">
+                  <div class="text-truncate-container card-text mb-0">
+                    <p><%= markdown(letterbox.body) %></p>
+                  </div>
+                  <div class="text-end m-3">
+                    <% if current_user&.admin? || producer?(current_user, letterbox.program) %>
+                      <%= link_to '箱の中のお便り', program_letters_path(letterbox.program, q: { letterbox_id_eq: letterbox.id }), class: "btn btn-outline-light px-3 py-2 mt-1 me-3 hover-lift", data: { turbo: false } %>
+                    <% end %>
+                    <%= link_to program_path(letterbox.program, letter: {letterbox_id: letterbox.id}, anchor: "letterForm"),
+                        class: "btn btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center hover-lift",
+                        data: { turbo: false }  do %>
+                      <i class="bi bi-pencil-square me-2"></i>
+                      <span>お便りを書く</span>
+                      <i class="bi bi-arrow-right ms-2 transition-icon"></i>
+                    <% end %>
                   </div>
                 </div>
-              <% end %>
-            </div>
-          <% else %>
-            <p class="text-gradient">お便り箱はまだありません。</p>
-          <% end %>
-        </section>
-      <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gradient">お便り箱はまだありません。</p>
+        <% end %>
+      </section>
     </div>
 
     <!-- Star ランキング -->
