@@ -281,7 +281,7 @@ GEM
     parser (3.3.6.0)
       ast (~> 2.4.1)
       racc
-    pg (1.5.9)
+    pg (1.6.0-x86_64-linux)
     propshaft (1.1.0)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
@@ -504,7 +504,7 @@ DEPENDENCIES
   meta-tags
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
-  pg (~> 1.1)
+  pg (~> 1.6)
   propshaft
   puma (>= 5.0)
   pundit
