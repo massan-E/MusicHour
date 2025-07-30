@@ -169,18 +169,20 @@
           <% else %>
             <div class="accordion-custom">
               <% @star_rankings.each_with_index do |(user, star), i| %>
-                <div class="accordion-box mb-2">
-                  <div class="title w-100">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <h4 class="card-title h5 mb-0">
-                        <span class="text-gradient fw-bold me-2"><%= i + 1 %>. <%= @program.letters.where(user: user).last&.radio_name || "名無しさん" %></span>
-                      </h4>
-                      <span class="badge bg-dark text-warning fs-5">
-                        <i class="bi bi-star-fill me-1"></i> <%= star %>
-                      </span>
+                <%= link_to user_path(user) do %>
+                  <div class="accordion-box mb-2">
+                    <div class="title w-100">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title h5 mb-0 scroll">
+                            <%= i + 1 %>. <%= @program.letters.where(user: user).last&.radio_name || "名無しさん" %>
+                        </h4>
+                        <span class="badge bg-dark text-warning fs-5">
+                          <i class="bi bi-star-fill me-1"></i> <%= star %>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                <% end %>
               <% end %>
             </div>
           <% end %>
