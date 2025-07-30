@@ -106,7 +106,7 @@ class Program < ApplicationRecord
     letters
       .where.not(user: nil)
       .where(publish: true)
-      .where(stared_at: date_range)
+      # .where(stared_at: date_range)    # 一時的にコメントアウト
       .group(:user)
       .limit(limit)
       .order(Arel.sql("SUM(star) DESC"))
