@@ -23,10 +23,12 @@
       <%= form.text_area :body, class: "form-control", rows: 5 %>
     </div>
 
-    <div class="mb-4">
-      <%= form.label :publish, class: "form-label" %>
-      <%= form.check_box :publish, class: "form-check-input" %>
-    </div>
+    <% if action_name == "new" %>
+      <div class="mb-4">
+        <%= form.label :publish, class: "form-label" %>
+        <%= form.check_box :publish, class: "form-check-input" %>
+      </div>
+    <% end %>
 
     <div class="mb-4">
       <%= form.label :ranking_period, class: "form-label" %>
