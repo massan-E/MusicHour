@@ -40,6 +40,7 @@ class ProgramsController < ApplicationController
       begin
         @program.image = ImageProcessable.process_and_transform_image(params[:program][:image], 854) if params[:program][:image].present?
         if @program.save
+          current_user.user_participations.create(program: @program)
           flash[:notice] = "番組を作成しました"
           redirect_to @program
         end
