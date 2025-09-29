@@ -17,6 +17,9 @@ class ProgramsController < ApplicationController
     @letterboxes = @program.letterboxes.published
     @star_rankings = @program.cached_star_rankings
     logger.swim @star_rankings
+    if @program.image.attached?
+      set_meta_tags(og: { title: @program.title, image: url_for(@program.image.variant(format: :jpg)) }, twitter: { image: url_for(@program.image.variant(format: :jpg)) })
+    end
   end
 
   def new
