@@ -46,7 +46,10 @@ if Rails.env.development?
   letterbox_ids = Letterbox.ids
 
   # letters
-  100000.times do |index|
+  # デフォルトは重さ・クエリ検証用に100000件。ローカルで軽く流したい場合は
+  # SEED_LETTERS=20000 bin/rails db:seed のように件数を上書きできる。
+  letter_count = ENV.fetch("SEED_LETTERS", 100_000).to_i
+  letter_count.times do |index|
     letterbox = Letterbox.find(letterbox_ids.sample)
     letterbox.letters.create!(
       title: "letterタイトル#{index}",
